@@ -1,0 +1,404 @@
+{
+  "configForm": {
+    "name": "Name",
+    "nameIsRequired": "Name is required",
+    "clientId": "Client ID",
+    "clientIdIsRequired": "Client ID is required",
+    "secret": "Secret",
+    "secretIsRequired": "Secret is required",
+    "callbackUrl": "Callback URL",
+    "provider": "Provider",
+    "active": "Active",
+    "saving": "Saving...",
+    "saveConfiguration": "Save Configuration",
+    "edit": "Edit"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred"
+  },
+  "settings": {
+    "manage": "Manage your account",
+    "enable2fa": "Enable app authentication",
+    "disable2fa": "Disable app authentication",
+    "scan": "Scan this QR code in your authenticator app, then enter the verification code.",
+    "code": "Verification code",
+    "verify": "Verify and enable",
+    "verifying": "Verifying...",
+    "wrongCode": "The code is incorrect. Please try again.",
+    "tfaSuccess": "2FA enabled successfully!",
+    "disableAdaptiveLogin": "Disable adaptive login",
+    "enableAdaptiveLogin": "Enable adaptive login"
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "old": "Current Password",
+    "new": "New Password",
+    "confirm": "Confirm New Password",
+    "sending": "Saving...",
+    "send": "Change Password",
+    "createNew": "Create new password",
+    "saving": "Saving...",
+    "saveNew": "Save new password",
+    "linkExpired": "The token is invalid or has expired.",
+    "ask": "Request a new link",
+    "return": "Back to login",
+    "error": "Password change failed. Please try again.",
+    "correct": "Password changed successfully."
+  },
+  "password": {
+    "back": "Back to login",
+    "label": "Email or phone number",
+    "reset": "Reset Password",
+    "login": "Enter your email or phone to reset your password.",
+    "verifying": "Verifying token...",
+    "sending": "Sending...",
+    "send": "Send instructions",
+    "resetInfo": "If the account exists, password reset instructions have been sent.",
+    "resetSuccess": "Your password has been changed successfully.",
+    "tokenExpired": "Token expired. Please request a new password reset link.",
+    "resetWrong": "An unexpected error occurred."
+  },
+  "config": {
+    "create": "Add new configuration",
+    "new": "New configuration",
+    "edit": "Edit configuration",
+    "error": "An error occurred while loading configuration"
+  },
+  "auth": {
+    "title": "Biometrics Management",
+    "default": "Synced device",
+    "added": "Added: {date}",
+    "remove": "Remove",
+    "loggingIn": "Login with key or biometrics",
+    "active": "This device is active.",
+    "inactive": "This device is not registered yet.",
+    "enable": "Enable biometric login",
+    "disable": "Disable biometric login",
+    "loginKey": "Key login",
+    "loginPhone": "Phone login",
+    "loginWrong": "Your Passkey and our server are currently giving each other the silent treatment. We tried to play peacemaker, but your finger/face and the system are acting like complete strangers. Try again before they start dividing their assets. P.S. Make sure your device is unlocked and ready to cooperate!",
+    "loginSuccess": "Biometrics registered successfully!",
+    "tfaWrong": "The code is incorrect. Please try again."
+  },
+  "login": {
+    "social": "Log in via social media",
+    "login": "Login",
+    "loginQrCode": "Login with QR code",
+    "email": "Enter your email address",
+    "password": "Enter password",
+    "loggingIn": "Logging in...",
+    "singIn": "Sign In",
+    "forgotPassword": "Forgot password?",
+    "verifyType": "Two-factor verification",
+    "code": "Verification code",
+    "verify": "Verifying...",
+    "verifying": "Verify",
+    "sms": "Enter the code you received via SMS / e-mail.",
+    "smsInfo": "Notice: Due to free tier limitations, SMS messages are only sent to pre-approved ,numbers. Therefore, the verification code is displayed above.",
+    "whatsappRead": "Thoughts turned into words. The rest is out of my hands.",
+    "whatsappSend": "Read. Now the real conversation begins – the one without words.",
+    "whatsappDelivered": "The message is there. The question is, will you find the time?",
+    "whatsappDefault": "Not everything can be sent digitally. Some things require presence.",
+    "tfa": "Enter the code from your authenticator app.",
+    "default": "Enter the verification code.",
+    "loginWrong": "Login failed. Please check your data and try again.",
+    "verifyWrong": "Verification failed. Please try again.",
+    "nonceIdentityCrisis": {
+      "title": "Nonce Identity Crisis",
+      "message": "It seems the nonce you provided failed the UUID test. Our server is quite old-fashioned about it and requires 36 characters of pure, hyphen-divided hexadecimal love. Please correct it before our logs are flooded with tears."
+    },
+    "mysteriousStranger": {
+      "title": "Who is this mysterious stranger?",
+      "message": "It seems you are trying to use a client account that is not in our records. It might be a typo in the ID, or we just haven't met yet. Register the client in the admin panel, and we promise to greet them with open ports next time!"
+    }
+  },
+  "register": {
+    "social": "Sign up via social media",
+    "register": "Registration",
+    "email": "Enter your email address",
+    "phone": "Enter your phone number",
+    "password": "Enter password",
+    "registration": "Registering...",
+    "singUp": "Sign Up",
+    "registerWrong": "Registration failed. Please check your data and try again."
+  },
+  "menu": {
+    "registration": "Registration",
+    "login": "Login",
+    "home": "Home",
+    "backend": "Backend",
+    "frontend": "Frontend",
+    "config": "Config",
+    "settings": "Settings",
+    "changePassword": "Change Password",
+    "logout": "Logout",
+    "projects": "Projects"
+  },
+  "authInfo": {
+    "title": "Secure Login in Our Application",
+    "description": "Our platform offers advanced and flexible authorization methods tailored to your needs.",
+    "sections": {
+      "social": {
+        "title": "1. Social Registration and Login (Social Auth)",
+        "description": "You can register instantly using your social media account. This option allows for immediate login without the need to fill out lengthy forms."
+      },
+      "traditional": {
+        "title": "2. Traditional Registration and Verification",
+        "description": "If you prefer the traditional method, provide your email address and phone number. Logging in this way requires a verification code sent to both channels every time, ensuring the highest level of data protection."
+      },
+      "advanced": {
+        "title": "3. Advanced Authentication Methods",
+        "description": "Once logged in, you can further secure your account by activating modern login methods:",
+        "methods": {
+          "0": "Authenticator apps (e.g., Microsoft Authenticator)",
+          "1": "Physical security keys",
+          "2": "Biometrics (fingerprint or facial recognition), if supported by your device"
+        }
+      },
+      "linking": {
+        "title": "4. Account Linking",
+        "description": "Keep in mind that each login method (traditional or social) initially requires a separate registration. However, once accounts are created, they will be linked. This allows you to log into the same account in the future using any method of your choice."
+      },
+      "sso": {
+        "title": "5. Third-Party Authentication (Single Sign-On / SSO)",
+        "description": "Our platform acts as a trusted Identity Provider. You can now use your account to log in to external services and partner applications without the need to create new credentials for every site.",
+        "dataSecurity": "Data Security: Your passwords and verification codes are never shared with third-party services. Authentication occurs exclusively within our secure environment.",
+        "transparency": "Total Transparency: Every time you log in to an external site, you will be asked to explicitly approve the scope of data (e.g., email address, username) that will be shared with that specific application.",
+        "accessManagement": "Access Management: Within your security dashboard, you can monitor the list of external applications you have authorized and revoke their access at any time with a single click."
+      }
+    }
+  },
+  "loggedInfo": {
+    "title": "Welcome back",
+    "settings": {
+      "title": "Security Settings",
+      "description": "In the settings tab, you can enable two-factor authentication (2FA) using an authenticator app (e.g., Microsoft Authenticator), hardware key login, or biometrics if your device supports these features."
+    },
+    "sourceCode": {
+      "title": "Source Code",
+      "menuLabel": "Source Code",
+      "backend": {
+        "title": "Backend",
+        "description": "The backend application was written entirely by me. If you have any feedback or suggestions, feel free to comment on GitHub!"
+      },
+      "frontend": {
+        "title": "Frontend (Client)",
+        "description": "The client application was largely developed by Google Gemini, and I have personally customized and integrated it."
+      }
+    },
+    "loginFail": "Login via social media failed. You must first register using this login method."
+  },
+  "schemas": {
+    "forgotPassword": "Login must be a valid email address or phone number",
+    "login": "Login must be a valid email address or phone number",
+    "passwordProvide": "Password is required",
+    "codeLength": "Code must be 6 characters long",
+    "passwordLength": "Password must be at least 8 characters long",
+    "passwordLetter": "Password must contain at least one uppercase letter",
+    "passwordLetter2": "Password must contain at least one lowercase letter",
+    "passwordNumber": "Password must contain at least one number",
+    "password": "Password must contain at least one special character",
+    "oldPassword": "Old password is required",
+    "passwordMatch": "Passwords must match",
+    "wrongEmail": "Invalid email address",
+    "numberPhone": "Phone number must be in the format +48XXXXXXXXX",
+    "projectNameRequired": "Project name is required",
+    "projectClientUrlRequired": "Url your's web side  is required",
+    "projecOriginRequired": "Origin your's web side  is required"
+  },
+  "projects": {
+    "projects": "Projects",
+    "createNew": "Create New",
+    "edit": "Edit",
+    "delete": "Delete",
+    "editProject": "Edit Project",
+    "createProject": "Create Project",
+    "projectName": "Project Name",
+    "isActive": "Active",
+    "saveChanges": "Save Changes",
+    "clientId": "Client ID",
+    "secret": "Secret",
+    "show": "Show",
+    "hide": "Hide",
+    "generateNewSecret": "Generate New Secret",
+    "clientUrl": "Client URL",
+    "projectDetails": "Project Details",
+    "verifyUrl": "link to verification login end point",
+    "loginUrl": "link to login web side",
+    "documentation": "Documentation"
+  },
+  "loader": {
+    "s1": "😴 Server just hit the snooze button...",
+    "s2": "☀️ Oh! The server is up and stretching its cables...",
+    "s3": "🚿 Taking a quick shower in the data stream...",
+    "s4": "🪥 Brushing the database for that minty fresh breath...",
+    "s5": "☕ Brewing a double espresso for the processor...",
+    "s6": "🍳 Frying up some fresh bytes for breakfast...",
+    "s7": "👕 Ironing the stylesheets to look professional...",
+    "s8": "👞 Tying the laces on the TCP packets...",
+    "s9": "🏃‍♂️ The backend is officially dashing out the door...",
+    "s10": "🚦 Waiting for a green light from the firewall...",
+    "s11": "🧩 Piecing together the scattered records...",
+    "s12": "🧹 Dusting off the cobwebs from the cache...",
+    "s13": "💎 Polishing the interface to a high shine...",
+    "s14": "🔋 Checking the enthusiasm level (Result: 100%)...",
+    "s15": "🚪 Knocking on your browser's front door...",
+    "s16": "🎉 I'm in! Prepare for the grand opening."
+  },
+  "documentation": {
+    "back": "Back to projects",
+    "back_to_docs": "Back to documentation",
+    "title": "Login System Integration Documentation",
+    "demo": "Login demo on another website",
+    "subtitle": "OAuth2-like Flow",
+    "intro": "This documentation describes the process of implementing login in a Client-Server architecture using an external identity provider. The process is based on the secure exchange of temporary tokens and verification on the backend side.",
+    "nav": {
+      "previous": "Previous",
+      "next": "Next",
+      "previous_disabled": "Previous",
+      "next_disabled": "Next"
+    },
+    "sections": {
+      "config": {
+        "title": "1. Project Configuration",
+        "short_desc": "Learn how to register your application and get the necessary credentials.",
+        "desc": "Before starting the implementation, you must register your application in the provider's administrative panel.",
+        "steps": {
+          "1": "Create a new project: Provide a unique application name.",
+          "2": "Define Frontend URL: Provide the exact address (e.g., https://app.yourdomain.com) to which the system will send postMessage communications.",
+          "3": "Download credentials:"
+        },
+        "credentials": {
+          "clientId": "Client ID: Public identifier of your project.",
+          "secret": "Secret: Private access key (generated once). Never share it on the frontend side or in the repository source code.",
+          "loginUrl": "Login URL: Entry point address for the user.",
+          "verifyUrl": "Verification URL: API address for token verification on the backend side."
+        }
+      },
+      "process": {
+        "title": "2. Authentication Process Flow",
+        "short_desc": "A step-by-step guide to the authentication flow, from initiation to token verification.",
+        "step1": {
+          "title": "Step 1: Initiation on the Frontend",
+          "desc": "To start logging in, open a popup login window under the provided Login URL.",
+          "param": "Required parameter:",
+          "nonce": "nonce: Unique session identifier in UUID format. It serves to protect against CSRF and Replay attacks."
+        },
+        "step2": {
+          "title": "Step 2: Data Transfer (postMessage)",
+          "desc": "After successful login on the provider side, the system will send an object with data to your parent window using the window.postMessage mechanism.",
+          "structure": "Structure of the received object:",
+          "task": "Frontend Task: Check nonce consistency and send the token to your backend.",
+          "p1": "| Key | Description |",
+          "p2": "| :--- | :--- |",
+          "p3": "| token | Temporary authorization token. |",
+          "p4": "| nonce | UUID sent in the previous step. |",
+          "p5": "| type | AUTH_SUCCESS |"
+        },
+        "step3": {
+          "title": "Step 3: Verification on the Backend",
+          "desc": "Your backend must confirm the authenticity of the token by communicating directly with the provider's server (Server-to-Server).",
+          "endpoint": "Endpoint: Verification URL | Method: POST",
+          "params": "Request parameters:",
+          "p1": "| Key | Description |",
+          "p2": "| :--- | :--- |",
+          "p3": "| client_id | Public project identifier. |",
+          "p4": "| secret | Your private secret. |",
+          "p5": "| token | Temporary token received from the frontend. |"
+        },
+        "step4": {
+          "title": "Step 4: Finalization and Session",
+          "desc": "If verification is successful, the provider's server will return:",
+          "list": "User email, JWT Token (for session authorization), Unique Session Secret (unique key signing the session).",
+          "important": "Recommendation: The email + session_secret pair should be saved in a fast data store (e.g., Redis) to maintain the session. The JWT token should be sent back to the frontend as confirmation of login."
+        },
+        "step5": {
+          "title": "Step 5: Refresh Token Flow",
+          "desc": "When the short-lived accessToken (JWT) expires, the application should use the saved refreshToken (UUID) to obtain a new session without interrupting the user's work and requiring a new login through the popup.",
+          "endpoint": "Endpoint: /provider-auth/refresh-token",
+          "method": "Method: POST",
+          "params": "Request parameters:",
+          "p1": "| Key | Description |",
+          "p2": "| :--- | :--- |",
+          "p3": "| client_id | Public project identifier. |",
+          "p4": "| secret | Your private secret. |",
+          "p5": "| token | Refresh token received during token verification after login. |",
+          "backend_code_description": "Example implementation of the endpoint on the backend side (Node.js with Express).",
+          "frontend_code_description": "Example of handling automatic token refresh on the frontend side using an axios interceptor."
+        }
+      },
+      "security": {
+        "title": "Security Summary",
+        "short_desc": "Key security principles to follow during implementation.",
+        "p1": "Backend-only Secret: Never send client_secret from the browser.",
+        "p2": "Nonce Validation: Always compare the UUID sent with the one returned in postMessage.",
+        "p3": "Token Expiration: Temporary tokens are one-time use and have a short time-to-live (TTL)."
+      }
+    },
+    "code_blocks": {
+      "open_login_comment_1": "// We generate a unique session identifier (Nonce)",
+      "your_client_id": "YOUR_CLIENT_ID",
+      "open_login_comment_2": "// We build the URL according to your specification",
+      "open_login_comment_3": "// We open the login window",
+      "listener_comment_1": "// A. Origin verification",
+      "listener_comment_2": "// Change to the actual URL of your provider",
+      "listener_comment_3": "// B. Event type check",
+      "listener_comment_4": "// Only events of type 'AUTH_SUCCESS' are processed",
+      "listener_comment_5": "// We extract the data sent by the provider",
+      "listener_comment_6": "// C. Nonce verification (protection against CSRF attacks)",
+      "listener_error_nonce": "Error: Nonce mismatch! The session may have been hijacked.",
+      "listener_success_token": "Received a valid token, sending to backend for verification...",
+      "listener_comment_7": "// 3. Sending the temporary token to your backend",
+      "listener_comment_8": "// We clear the nonce after use (one-time)",
+      "listener_comment_9": "// Finalizing the login (e.g., saving JWT in localStorage or Cookie)",
+      "listener_error_login": "Login error:",
+      "listener_error_critical": "Critical communication error:",
+      "express_comment_1": "// or built-in fetch in Node 18",
+      "express_comment_2": "// Configuration data (preferably from a .env file)",
+      "your_secret_key": "YOUR_SECRET_KEY",
+      "your_frontend_url": "https://your-website.com",
+      "express_error_no_token": "Missing token",
+      "express_comment_3": "// Sending a request to the Provider (Server-to-Server)",
+      "express_comment_4": "// 4. Session logic (e.g., saving in Redis)",
+      "express_comment_5": "// We return the JWT to the front-end",
+      "express_error_verification": "Provider verification error:",
+      "express_error_invalid_token": "Invalid or expired token",
+      "refresh_token_backend_comment_1": "// We assume you have an initialized redis client",
+      "refresh_token_backend_comment_2": "/** Endpoint for session refresh */",
+      "refresh_token_backend_comment_3": "// The client sends the refreshToken (UUID) they received upon login",
+      "refresh_token_backend_comment_4": "Missing Refresh Token",
+      "refresh_token_backend_comment_5": "// 1. We search in Redis for data assigned to this UUID",
+      "refresh_token_backend_comment_6": "// The key in Redis should be in the format e.g., 'refresh:UUID'",
+      "refresh_token_backend_comment_7": "Session has expired or the token is invalid",
+      "refresh_token_backend_comment_8": "// We decode the data (e.g., email or user ID) that we saved at login",
+      "refresh_token_backend_comment_9": "// 2. Here you generate a new Access Token (JWT)",
+      "refresh_token_backend_comment_10": "// In a real system, you would use the 'jsonwebtoken' library (jwt.sign)",
+      "refresh_token_backend_comment_11": "GENERATED_NEW_JWT_BASED_ON_",
+      "refresh_token_backend_comment_12": "// e.g., 1 hour in seconds",
+      "refresh_token_backend_comment_13": "// 3. Optional: Refresh Token Rotation (you also generate a new Refresh Token)",
+      "refresh_token_backend_comment_14": "// If you don't rotate, you just send back the same one or only the new Access Token",
+      "refresh_token_backend_comment_15": "Error while refreshing token:",
+      "refresh_token_backend_comment_16": "Internal server error",
+      "refresh_token_frontend_comment_1": "// Extending your axiosInstance with automatic refresh",
+      "refresh_token_frontend_comment_2": "// If the server returns 401 (Unauthorized) and it's not a retry",
+      "refresh_token_frontend_comment_3": "// Attempt to get a new token",
+      "refresh_token_frontend_comment_4": "// We save the new Access Token",
+      "refresh_token_frontend_comment_5": "// We update the header and retry the original request",
+      "refresh_token_frontend_comment_6": "// If the refresh token has expired in Redis (after 7 days) -> full logout"
+    }
+  },
+  "qrCode": {
+    "title": "Fast action, zero passwords.",
+    "description": "Scan the code with your phone to log in securely using a Passkey. Already have a paired device? Just confirm the notification on your smartphone and you're in – without typing a single character!",
+    "canceled": "Change of plans? Login canceled. Let us know when you're ready to get back in the game. And now you may choice different method of login",
+    "success": "Hackers are crying – you’re in with zero effort. Let’s go!",
+    "error": "Your password and our system aren't on speaking terms. Please try again.",
+    "alert": "Intruder alert! Someone is trying to steal your spotlight (and your access)."
+  },
+  "qrCodeLogin": {
+    "title": "The keys to the kingdom, in your hand.",
+    "description": "Confirm your identity (FaceID, fingerprint, or PIN) to securely unlock access on the other device. It’s the safest way to tell us: 'Yes, it’s really me!'.",
+    "thankYou": "Thank you very much"
+  }
+}

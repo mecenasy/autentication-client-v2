@@ -1,0 +1,400 @@
+{
+  "configForm": {
+    "name": "Nazwa",
+    "nameIsRequired": "Nazwa jest wymagana",
+    "clientId": "Identyfikator klienta",
+    "clientIdIsRequired": "Identyfikator klienta jest wymagany",
+    "secret": "Sekret",
+    "secretIsRequired": "Sekret jest wymagany",
+    "callbackUrl": "Adres URL wywołania zwrotnego",
+    "provider": "Dostawca",
+    "active": "Aktywny",
+    "saving": "Zapisywanie...",
+    "saveConfiguration": "Zapisz konfigurację",
+    "edit": "Edytuj"
+  },
+  "common": {
+    "loading": "Ładowanie...",
+    "error": "Wystąpił błąd"
+  },
+  "settings": {
+    "manage": "Zarządzaj swoim kontem",
+    "enable2fa": "Włącz autoryzację w aplikacji",
+    "disable2fa": "Wyłącz autoryzację w aplikacji",
+    "scan": "Zeskanuj ten kod QR w swojej aplikacji autoryzującej, a następnie wpisz kod weryfikacyjny.",
+    "code": "Kod weryfikacyjny",
+    "verify": "Weryfikuj i włącz",
+    "verifying": "Weryfikowanie...",
+    "wrongCode": "Kod jest nieprawidłowy. Spróbuj ponownie.",
+    "tfaSuccess": "2FA zostało włączone pomyślnie!",
+    "disableAdaptiveLogin": "Wyłącz adaptywne logowanie",
+    "enableAdaptiveLogin": "Włącz adaptywne logowanie"
+  },
+  "changePassword": {
+    "title": "Zmień hasło",
+    "old": "Aktualne hasło",
+    "new": "Nowe hasło",
+    "confirm": "Potwierdź nowe hasło",
+    "sending": "Zapisywanie...",
+    "send": "Zmień hasło",
+    "createNew": "Utwórz nowe hasło",
+    "saving": "Zapisywanie...",
+    "saveNew": "Zapisz nowe hasło",
+    "linkExpired": "Token jest nieprawidłowy lub wygasł.",
+    "ask": "Poproś o nowy link",
+    "return": "Wróć do logowania",
+    "error": "Zmiana hasła nie powiodła się. Spróbuj ponownie.",
+    "correct": "Hasło zostało zmienione pomyślnie."
+  },
+  "password": {
+    "back": "Wróć do logowania",
+    "label": "E-mail lub numer telefonu",
+    "reset": "Resetowanie hasła",
+    "login": "Podaj e-mail lub telefon, aby zresetować hasło.",
+    "verifying": "Weryfikuję token...",
+    "sending": "Wysyłanie...",
+    "send": "Wyślij instrukcje",
+    "resetInfo": "Jeśli konto istnieje, instrukcje dotyczące resetowania hasła zostały wysłane.",
+    "resetSuccess": "Twoje hasło zostało zmienione pomyślnie.",
+    "tokenExpired": "Token wygasł. Poproś o nowy link do resetowania hasła.",
+    "resetWrong": "Wystąpił nieoczekiwany błąd."
+  },
+  "config": {
+    "create": "Dodaj nową konfigurację",
+    "new": "Nowa konfiguracja",
+    "edit": "Edytuj konfigurację",
+    "error": "Wystąpił błąd podczas ładowania konfiguracji"
+  },
+  "auth": {
+    "title": "Zarządzanie biometrią",
+    "default": "Zsynchronizowane urządzenie",
+    "added": "Dodano: {date}",
+    "remove": "Usuń",
+    "loggingIn": "Logowanie kluczem lub biometrią",
+    "active": "To urządzenie jest aktywne.",
+    "inactive": "To urządzenie nie jest jeszcze zarejestrowane.",
+    "enable": "Włącz logowanie biometrią",
+    "disable": "Wyłącz logowanie biometrią",
+    "loginKey": "Logowanie kluczem",
+    "loginPhone": "Logowanie przez telefon",
+    "loginWrong": "Twój klucz dostępu (Passkey) i nasz serwer właśnie przechodzą ciche dni. Próbowaliśmy ich pogodzić, ale Twój palec/twarz i system udają, że się nie znają. Spróbuj jeszcze raz, zanim zaczną dzielić majątek. P.S. Upewnij się, że Twoje urządzenie jest odblokowane i gotowe do współpracy!",
+    "loginSuccess": "Biometria zarejestrowana pomyślnie!",
+    "tfaWrong": "Kod jest nieprawidłowy. Spróbuj ponownie."
+  },
+  "login": {
+    "social": "Zaloguj się przez social media",
+    "login": "Logowanie",
+    "loginQrCode": "Logowanie z przez QR",
+    "email": "Podaj swój adres e-mail",
+    "password": "Podaj hasło",
+    "loggingIn": "Logowanie...",
+    "singIn": "Zaloguj się",
+    "forgotPassword": "Zapomniałeś hasła?",
+    "verifyType": "Weryfikacja dwuetapowa",
+    "code": "Kod weryfikacyjny",
+    "verify": "Weryfikowanie...",
+    "verifying": "Zweryfikuj",
+    "sms": "Wpisz kod, który otrzymałeś w wiadomości SMS / na e-mail.",
+    "smsInfo": "Komunikat: Ze względu na limity darmowej wersji, SMS-y wysyłane są tylko na zatwierdzone numery. W związku z tym kod weyfikacyjny jesr wyświerlony powyżej.",
+    "tfa": "Wpisz kod z aplikacji autoryzującej.",
+    "default": "Wpisz kod weryfikacyjny.",
+    "loginWrong": "Logowanie nie powiodło się. Sprawdź dane i spróbuj ponownie.",
+    "verifyWrong": "Weryfikacja nie powiodła się. Spróbuj ponownie.",
+    "nonceIdentityCrisis": {
+      "title": "Kryzys tożsamości Nonce'a",
+      "message": "Wygląda na to, że przesłany nonce nie przeszedł testu na bycie UUID. Nasz serwer jest pod tym względem dość staromodny i wymaga 36 znaków czystej, szesnastkowej miłości podzielonej myślnikami. Prosimy o poprawkę, zanim nasze logi zaleją się łzami."
+    },
+    "mysteriousStranger": {
+      "title": "Kim jest ten tajemniczy nieznajomy?",
+      "message": "Wygląda na to, że próbujesz użyć konta klienta, które nie widnieje w naszej kartotece. Możliwe, że to literówka w ID, albo po prostu jeszcze się nie znamy. Zarejestruj klienta w panelu administracyjnym, a obiecujemy, że następnym razem przywitamy go z otwartymi portami!"
+    }
+  },
+  "register": {
+    "social": "Zarejestruj się przez social media",
+    "register": "Rejestracja",
+    "email": "Podaj swój adres e-mail",
+    "phone": "Podaj swój numer telefonu",
+    "password": "Podaj hasło",
+    "registration": "Rejestrowanie...",
+    "singUp": "Zarejestruj się",
+    "registerWrong": "Rejestracja nie powiodła się. Sprawdź dane i spróbuj ponownie."
+  },
+  "menu": {
+    "registration": "Rejestracja",
+    "login": "Logowanie",
+    "home": "Strona główna",
+    "backend": "Backend",
+    "frontend": "Frontend",
+    "config": "Konfiguracja",
+    "settings": "Ustawienia",
+    "changePassword": "Zmień hasło",
+    "logout": "Wyloguj",
+    "projects": "Projekty"
+  },
+  "authInfo": {
+    "title": "Bezpieczne logowanie w naszej aplikacji",
+    "description": "Nasza platforma oferuje zaawansowane i elastyczne metody autoryzacji, dostosowane do Twoich potrzeb.",
+    "sections": {
+      "social": {
+        "title": "1. Rejestracja i logowanie społecznościowe (Social Auth)",
+        "description": "Możesz zarejestrować się błyskawicznie, korzystając ze swojego konta w mediach społecznościowych. Wybór tej opcji pozwala na natychmiastowe zalogowanie bez konieczności wypełniania długich formularzy."
+      },
+      "traditional": {
+        "title": "2. Tradycyjna rejestracja i weryfikacja",
+        "description": "Jeśli wolisz metodę tradycyjną, podaj swój adres e-mail oraz numer telefonu. Proces logowania w tym trybie wymaga każdorazowo podania kodu weryfikacyjnego przesłanego na oba te kanały, co gwarantuje najwyższy poziom ochrony Twoich danych."
+      },
+      "advanced": {
+        "title": "3. Zaawansowane metody uwierzytelniania",
+        "description": "Po zalogowaniu możesz dodatkowo zabezpieczyć swoje konto, aktywując nowoczesne metody logowania:",
+        "methods": {
+          "0": "Aplikacje autoryzujące (np. Microsoft Authenticator)",
+          "1": "Fizyczne klucze bezpieczeństwa",
+          "2": "Biometria (odcisk palca lub rozpoznawanie twarzy), jeśli Twoje urządzenie wspiera tę funkcję"
+        }
+      },
+      "linking": {
+        "title": "4. Łączenie kont",
+        "description": "Pamiętaj, że każda metoda logowania (tradycyjna lub społecznościowa) wymaga początkowo osobnej rejestracji. Jednak po założeniu kont, zostaną one ze sobą połączone. Dzięki temu w przyszłości będziesz mógł logować się na to samo konto przy użyciu dowolnej, wybranej przez siebie metody."
+      },
+      "sso": {
+        "title": "5. Logowanie zewnętrzne (Single Sign-On / SSO)",
+        "description": "Nasza platforma pełni rolę zaufanego centrum tożsamości. Dzięki temu możesz używać swojego konta do logowania się w zewnętrznych serwisach i aplikacjach partnerskich bez konieczności zakładania tam nowych kont.",
+        "dataSecurity": "Bezpieczeństwo danych: Twoje hasła i kody weryfikacyjne nigdy nie są przekazywane do serwisów zewnętrznych. Autoryzacja odbywa się wyłącznie w naszym zabezpieczonym systemie.",
+        "transparency": "Pełna transparentność: Przy każdym logowaniu na obcej stronie zostaniesz poproszony o wyraźne zatwierdzenie zakresu danych (np. adres e-mail, nazwa użytkownika), które zostaną udostępnione danej aplikacji.",
+        "accessManagement": "Zarządzanie sesjami: W panelu bezpieczeństwa możesz w dowolnym momencie sprawdzić listę zewnętrznych aplikacji, którym udzieliłeś dostępu, i jednym kliknięciem cofnąć uprawnienia."
+      }
+    }
+  },
+  "loggedInfo": {
+    "title": "Witaj z powrotem",
+    "settings": {
+      "title": "Ustawienia bezpieczeństwa",
+      "description": "W zakładce ustawień możesz włączyć weryfikację dwuetapową (2FA) za pomocą aplikacji autoryzującej (np. Microsoft Authenticator), logowanie kluczem sprzętowym lub biometrią, jeśli Twoje urządzenie obsługuje takie funkcje."
+    },
+    "sourceCode": {
+      "title": "Kod źródłowy",
+      "menuLabel": "Kod źródłowy",
+      "backend": {
+        "title": "Backend",
+        "description": "Aplikacja backendowa została w całości napisana przeze mnie. Jeśli masz jakiekolwiek uwagi lub sugestie, nie krępuj się i zostaw komentarz na GitHubie!"
+      },
+      "frontend": {
+        "title": "Frontend (Klient)",
+        "description": "Aplikacja kliencka została w dużej mierze przygotowana przez Google Gemini, a ja zająłem się jej odpowiednim dostosowaniem i integracją."
+      }
+    },
+    "loginFail": "Logowanie przez social media nie powiodło. musisz najpierw zarejestrować się daną metodą logowania"
+  },
+  "schemas": {
+    "forgotPassword": "Login musi być poprawnym adresem e-mail lub numerem telefonu",
+    "login": "Login musi być poprawnym adresem e-mail lub numerem telefonu",
+    "passwordProvide": "Hasło jest wymagane",
+    "codeLength": "Kod musi mieć 6 znaków",
+    "passwordLength": "Hasło musi mieć co najmniej 8 znaków",
+    "passwordLetter": "Hasło musi zawierać co najmniej jedną wielką literę",
+    "passwordLetter2": "Hasło musi zawierać co najmniej jedną małą literę",
+    "passwordNumber": "Hasło musi zawierać co najmniej jedną cyfrę",
+    "password": "Hasło musi zawierać co najmniej jeden znak specjalny",
+    "oldPassword": "Stare hasło jest wymagane",
+    "passwordMatch": "Hasła muszą być identyczne",
+    "wrongEmail": "Nieprawidłowy adres e-mail",
+    "numberPhone": "Numer telefonu musi być w formacie +48XXXXXXXXX",
+    "projectNameRequired": "Nazwa projektu jest wymagana",
+    "projectClientUrlRequired": "Url twojej strony jest wymagana",
+    "projecOriginRequired": "Origin twojej strony jest wymagana"
+  },
+  "projects": {
+    "projects": "Projekty",
+    "createNew": "Utwórz nowy",
+    "edit": "Edytuj",
+    "delete": "Usuń",
+    "editProject": "Edytuj projekt",
+    "createProject": "Utwórz projekt",
+    "projectName": "Nazwa projektu",
+    "isActive": "Aktywny",
+    "saveChanges": "Zapisz zmiany",
+    "clientId": "Identyfikator klienta",
+    "secret": "Sekret",
+    "show": "Pokaż",
+    "hide": "Ukryj",
+    "generateNewSecret": "Wygeneruj nowy sekret",
+    "clientUrl": "URL klienta",
+    "projectDetails": "Detale projectu",
+    "verifyUrl": "link do koncuwki weryfikującej logowanie",
+    "loginUrl": "link do strony logowania",
+    "documentation": "Dokumentacja"
+  },
+  "loader": {
+    "s1": "😴 Serwer właśnie wyłączył budzik...",
+    "s2": "☀️ Oho! Serwer wstał i przeciąga kable...",
+    "s3": "🚿 Szybki prysznic w strumieniu danych...",
+    "s4": "🪥 Szczotkowanie bazy danych dla świeżego oddechu...",
+    "s5": "☕ Parzenie mocnej kawy dla procesora...",
+    "s6": "🍳 Smażenie świeżych bajtów na śniadanie...",
+    "s7": "👕 Prasowanie arkuszy stylów, by wyglądać profesjonalnie...",
+    "s8": "👞 Wiązanie sznurowadeł w pakietach TCP...",
+    "s9": "🏃‍♂️ Backend wybiega właśnie z domu...",
+    "s10": "🚦 Czekanie na zielone światło od firewalla...",
+    "s11": "🧩 Układanie rozrzuconych rekordów w jedną całość...",
+    "s12": "🧹 Omiatanie pamięci podręcznej z kurzu...",
+    "s13": "💎 Polerowanie interfejsu na wysoki połysk...",
+    "s14": "🔋 Sprawdzanie poziomu entuzjazmu (wynik: 100%)...",
+    "s15": "🚪 Już jestem pod drzwiami Twojej przeglądarki...",
+    "s16": "🎉 Wchodzę! Przygotuj się na wielkie otwarcie."
+  },
+  "documentation": {
+    "back": "Powrót do projektów",
+    "back_to_docs": "Powrót do dokumentacji",
+    "title": "Dokumentacja Integracji Systemu Logowania",
+    "subtitle": "OAuth2-like Flow",
+    "demo": "Demo logowania na innej stronie",
+    "intro": "Niniejsza dokumentacja opisuje proces implementacji logowania w architekturze Client-Server przy użyciu zewnętrznego dostawcy tożsamości. Proces opiera się na bezpiecznej wymianie tokenów tymczasowych oraz weryfikacji po stronie backendu.",
+    "nav": {
+      "previous": "Poprzednia",
+      "next": "Następna",
+      "previous_disabled": "Poprzednia",
+      "next_disabled": "Następna"
+    },
+    "sections": {
+      "config": {
+        "title": "1. Konfiguracja Projektu",
+        "short_desc": "Dowiedz się, jak zarejestrować swoją aplikację i uzyskać niezbędne dane uwierzytelniające.",
+        "desc": "Zanim rozpoczniesz implementację, musisz zarejestrować swoją aplikację w panelu administracyjnym dostawcy.",
+        "steps": {
+          "1": "Utwórz nowy projekt: Podaj unikalną nazwę aplikacji.",
+          "2": "Zdefiniuj URL Frontendu: Podaj dokładny adres (np. https://app.twojadomena.pl), na który system będzie przesyłać komunikaty postMessage.",
+          "3": "Pobierz dane uwierzytelniające:"
+        },
+        "credentials": {
+          "clientId": "Client ID: Publiczny identyfikator Twojego projektu.",
+          "secret": "Secret: Prywatny klucz dostępu (generowany jednorazowo). Nigdy nie udostępniaj go po stronie frontu ani w kodzie źródłowym repozytorium.",
+          "loginUrl": "Login URL: Adres punktu wejścia dla użytkownika.",
+          "verifyUrl": "Verification URL: Adres API do weryfikacji tokenów po stronie backendu."
+        }
+      },
+      "process": {
+        "title": "2. Przebieg Procesu Uwierzytelniania",
+        "short_desc": "Przewodnik krok po kroku po przepływie uwierzytelniania, od inicjacji do weryfikacji tokena.",
+        "step1": {
+          "title": "Krok 1: Inicjacja po stronie Frontendu",
+          "desc": "Aby rozpocząć logowanie, należy otworzyć okno logowania popup pod dostarczony Login URL.",
+          "param": "Wymagany parametr:",
+          "nonce": "nonce: Unikalny identyfikator sesji w formacie UUID. Służy on do zabezpieczenia przed atakami typu CSRF i Replay."
+        },
+        "step2": {
+          "title": "Krok 2: Przekazanie danych (postMessage)",
+          "desc": "Po poprawnym zalogowaniu po stronie dostawcy, system wyśle obiekt z danymi do Twojego okna macierzystego za pomocą mechanizmu window.postMessage.",
+          "structure": "Struktura otrzymanego obiektu:",
+          "task": "Zadanie Frontendu: Sprawdź zgodność nonce i prześlij token do swojego backendu.",
+          "p1": "| Klucz | Opis |",
+          "p2": "| :--- | :--- |",
+          "p3": "| token | Tymczasowy token autoryzacyjny. |",
+          "p4": "| nonce | UUID przesłany w poprzednim kroku. |",
+          "p5": "| type | AUTH_SUCCESS |"
+        },
+        "step3": {
+          "title": "Krok 3: Weryfikacja po stronie Backendu",
+          "desc": "Twój backend musi potwierdzić autentyczność tokena, komunikując się bezpośrednio z serwerem dostawcy (Server-to-Server).",
+          "endpoint": "Endpoint: Verification URL | Metoda: POST",
+          "params": "Parametry żądania:",
+          "p1": "| Klucz | Opis |",
+          "p2": "| :--- | :--- |",
+          "p3": "| client_id | Publiczny identyfikator projektu. |",
+          "p4": "| secret | Twój prywatny sekret. |",
+          "p5": "| token | Tymczasowy token otrzymany z frontu. |"
+        },
+        "step4": {
+          "title": "Krok 4: Finalizacja i Sesja",
+          "desc": "Jeśli weryfikacja przebiegnie pomyślnie, serwer dostawcy zwróci:",
+          "list": "Email użytkownika, Token JWT (do autoryzacji sesji), Unique Session Secret (unikalny klucz podpisujący sesję).",
+          "important": "Rekomendacja: Para email + session_secret powinna zostać zapisana w szybkim magazynie danych (np. Redis) w celu utrzymania sesji. Token JWT należy odesłać do frontu jako potwierdzenie zalogowania."
+        },
+        "step5": {
+          "title": "Krok 5: Mechanizm Odświeżania Tokena (Refresh Token Flow)",
+          "desc": "Gdy krótkotrwały accessToken (JWT) wygaśnie, aplikacja powinna użyć zapisanego refreshToken (UUID), aby uzyskać nową sesję bez przerywania pracy użytkownika i konieczności ponownego logowania przez popup.",
+          "endpoint": "Endpoint: /provider-auth/refresh-token",
+          "method": "Metoda: POST",
+          "params": "Parametry żądania:",
+          "p1": "| Klucz | Opis |",
+          "p2": "| :--- | :--- |",
+          "p3": "| client_id | Publiczny identyfikator projektu. |",
+          "p4": "| secret | Twój prywatny sekret. |",
+          "p5": "| token | Refresh token otrzymany podczas weryfikacji tokena po logowaniu. |",
+          "backend_code_description": "Przykładowa implementacja endpointu po stronie backendu (Node.js z Express).",
+          "frontend_code_description": "Przykład obsługi automatycznego odświeżania tokena po stronie frontendu z użyciem interceptora axios."
+        }
+      },
+      "security": {
+        "title": "Podsumowanie bezpieczeństwa",
+        "short_desc": "Kluczowe zasady bezpieczeństwa, których należy przestrzegać podczas implementacji.",
+        "p1": "Backend-only Secret: Nigdy nie wysyłaj client_secret z przeglądarki.",
+        "p2": "Nonce Validation: Zawsze porównuj UUID wysłany z tym, który powrócił w postMessage.",
+        "p3": "Token Expiration: Tokeny tymczasowe są jednorazowe i mają krótki czas życia (TTL)."
+      }
+    },
+    "code_blocks": {
+      "open_login_comment_1": "// Generujemy unikalny identyfikator sesji (Nonce)",
+      "your_client_id": "TWÓJ_CLIENT_ID",
+      "open_login_comment_2": "// Budujemy URL zgodnie z Twoją specyfikacją",
+      "open_login_comment_3": "// Otwieramy okno logowania",
+      "listener_comment_1": "// A. Weryfikacja źródła (Origin)",
+      "listener_comment_2": "// Zmień na faktyczny adres URL Twojego providera",
+      "listener_comment_3": "// B. Sprawdzenie typu zdarzenia",
+      "listener_comment_4": "// Tylko zdarzenia o typie 'AUTH_SUCCESS' są procesowane",
+      "listener_comment_5": "// Wyciągamy dane przesłane przez providera",
+      "listener_comment_6": "// C. Weryfikacja Nonce (zabezpieczenie przed atakami CSRF)",
+      "listener_error_nonce": "Błąd: Nonce mismatch! Sesja mogła zostać przejęta.",
+      "listener_success_token": "Otrzymano poprawny token, wysyłam do weryfikacji na backend...",
+      "listener_comment_7": "// 3. Przesłanie tymczasowego tokena do Twojego backendu",
+      "listener_comment_8": "// Czyścimy nonce po użyciu (jednorazowy)",
+      "listener_comment_9": "// Finalizacja logowania (np. zapisanie JWT w localStorage lub Cookie)",
+      "listener_error_login": "Błąd logowania:",
+      "listener_error_critical": "Błąd krytyczny komunikacji:",
+      "express_comment_1": "// lub wbudowany fetch w Node 18",
+      "express_comment_2": "// Dane konfiguracyjne (najlepiej z pliku .env)",
+      "your_secret_key": "TWÓJ_TAJNY_SEKRET",
+      "your_frontend_url": "https://twoja-strona.pl",
+      "express_error_no_token": "Brak tokena",
+      "express_comment_3": "// Wysłanie zapytania do Providera (Server-to-Server)",
+      "express_comment_4": "// 4. Logika sesji (np. zapis w Redis)",
+      "express_comment_5": "// Zwracamy JWT do frontu",
+      "express_error_verification": "Błąd weryfikacji u dostawcy:",
+      "express_error_invalid_token": "Nieprawidłowy lub wygasły token",
+      "refresh_token_backend_comment_1": "// Zakładamy, że masz zainicjalizowanego klienta redis",
+      "refresh_token_backend_comment_2": "/** Endpoint do odświeżania sesji */",
+      "refresh_token_backend_comment_3": "// Klient przesyła refreshToken (UUID), który dostał przy logowaniu",
+      "refresh_token_backend_comment_4": "Brak Refresh Tokena",
+      "refresh_token_backend_comment_5": "// 1. Szukamy w Redis danych przypisanych do tego UUID",
+      "refresh_token_backend_comment_6": "// Klucz w Redis powinien mieć formę np. 'refresh:UUID'",
+      "refresh_token_backend_comment_7": "Sesja wygasła lub token jest nieprawidłowy",
+      "refresh_token_backend_comment_8": "// Dekodujemy dane (np. email lub ID użytkownika), które zapisaliśmy przy loginie",
+      "refresh_token_backend_comment_9": "// 2. Tutaj generujesz nowy Access Token (JWT)",
+      "refresh_token_backend_comment_10": "// W prawdziwym systemie użyłbyś biblioteki 'jsonwebtoken' (jwt.sign)",
+      "refresh_token_backend_comment_11": "GENEROWANY_NOWY_JWT_NA_PODSTAWIE_",
+      "refresh_token_backend_comment_12": "// np. 1 godzina w sekundach",
+      "refresh_token_backend_comment_13": "// 3. Opcjonalnie: Refresh Token Rotation (generujesz też nowy Refresh Token)",
+      "refresh_token_backend_comment_14": "// Jeśli nie rotujesz, po prostu odsyłasz ten sam lub tylko nowy Access Token",
+      "refresh_token_backend_comment_15": "Błąd podczas odświeżania tokena:",
+      "refresh_token_backend_comment_16": "Błąd wewnętrzny serwera",
+      "refresh_token_frontend_comment_1": "// Rozszerzenie Twojego axiosInstance o automatyczne odświeżanie",
+      "refresh_token_frontend_comment_2": "// Jeśli serwer zwróci 401 (Unauthorized) i nie jest to ponowna próba",
+      "refresh_token_frontend_comment_3": "// Próba uzyskania nowego tokena",
+      "refresh_token_frontend_comment_4": "// Zapisujemy nowy Access Token",
+      "refresh_token_frontend_comment_5": "// Aktualizujemy nagłówek i ponawiamy pierwotne zapytanie",
+      "refresh_token_frontend_comment_6": "// Jeśli refresh token wygasł w Redis (po 7 dniach) -> pełne wylogowanie"
+    }
+  },
+  "qrCode": {
+    "title": "Szybka akcja, zero haseł.",
+    "description": "Zeskanuj kod telefonem, aby zalogować się bezpiecznie przy użyciu Passkey. Masz już sparowane urządzenie? Po prostu potwierdź powiadomienie na swoim smartfonie i gotowe – bez wpisywania ani jednego znaku!",
+    "success": "Hakerzy płaczą – wszedłeś bez problemu. Zaczynamy!",
+    "canceled": "Zmiana planów? Logowanie przerwane. Daj znać, kiedy będziesz gotowy wrócić do gry. A teraz mozesz wybrać inną metodę logowania",
+    "error": "Twoje hasło i nasz system nie mogą się dogadać. Spróbuj jeszcze raz.",
+    "alert": "Mamy intruza! Ktoś próbuje ukraść Twój blask (i dostęp)."
+  },
+  "qrCodeLogin": {
+    "title": "Klucze do królestwa w Twojej dłoni.",
+    "description": "Potwierdź swoją tożsamość (FaceID, odcisk palca lub PIN), aby bezpiecznie odblokować dostęp na drugim urządzeniu. To najbezpieczniejszy sposób, by powiedzieć nam: „Tak, to ja!”.",
+    "thankYou": "Dziekuję bardzo"
+  }
+}

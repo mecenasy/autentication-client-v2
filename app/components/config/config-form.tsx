@@ -4,34 +4,66 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Input from '@/app/components/Input';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from '@/src/api/api';
 import { useTranslations } from 'next-intl';
-
-export enum Provider {
-  microsoft = 'microsoft',
-  google = 'google',
-  facebook = 'facebook',
-  apple = 'apple',
-  github = 'github',
-  linkedin = 'linkedin',
-  twitter = 'twitter',
-}
+import { graphql } from '@/app/gql';
+import { useMutation } from '@apollo/client/react';
+import { GetConfigByIdQuery, Provider } from '@/app/gql/graphql';
 
 const configSchema = (t: (key: string) => string) => z.object({
   id: z.string().optional(),
   name: z.string().min(1, t('nameIsRequired')),
   clientId: z.string().min(1, t('clientIdIsRequired')),
   secret: z.string().min(1, t('secretIsRequired')),
-  callbackUrl: z.string(),
+  callbackUrl: z.string().optional(),
   provider: z.nativeEnum(Provider),
   active: z.boolean(),
 });
 
+
+const CRATE_CONFIG_MUTATION = graphql(`
+  mutation CreateConfig($input: CreateSocialConfigDto!) {
+    createSocialConfig(input: $input) {
+      id
+      name
+      clientId
+      secret
+      callbackUrl
+      provider
+      active
+    }
+  }
+`);
+
+const UPDATE_CONFIG_MUTATION = graphql(`
+  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {
+    updateSocialConfig(config: $config, id: $id) {      
+      id
+      name
+      clientId
+      secret
+      callbackUrl
+      provider
+      active
+    }
+  }
+`);
+
 type ConfigFormValues = z.infer<ReturnType<typeof configSchema>>;
 
-export function ConfigForm({ initialData }: { initialData?: ConfigFormValues }) {
-  const queryClient = useQueryClient();
+type NullToUndefined<T> = {
+  [K in keyof T]: T[K] extends null ? undefined : T[K];
+};
+export function ConfigForm({ initialData }: { initialData?: NullToUndefined<GetConfigByIdQuery['getConfig']> }) {
+  const initialValues: ConfigFormValues = {
+    id: initialData?.id,
+    name: initialData?.name ?? '',
+    clientId: initialData?.clientId ?? '',
+    secret: initialData?.secret ?? '',
+    callbackUrl: initialData?.callbackUrl ?? '',
+    provider: initialData?.provider ?? Provider.Google,
+    active: initialData?.active ?? true,
+  }
+
   const t = useTranslations('ConfigForm');
   const {
     register,
@@ -40,35 +72,34 @@ export function ConfigForm({ initialData }: { initialData?: ConfigFormValues }) 
     reset,
     formState: { errors },
   } = useForm<ConfigFormValues>({
-    values: initialData,
+    values: initialValues,
     resolver: zodResolver(configSchema(t)),
     defaultValues: {
       name: '',
       clientId: '',
       secret: '',
-      callbackUrl: '',
-      provider: Provider.google,
+      provider: Provider.Google,
       active: false,
     },
   });
-
-  const mutation = useMutation({
-    mutationFn: async (data: ConfigFormValues) => {
-      if (initialData) {
-        await axios.put(`/api/social-config/${initialData.id}`, data)
-      } else {
-        await axios.post('/api/social-config', data)
-      }
-      return { success: true, data };
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['config'] });
-      reset();
-    },
+  const [createSocialConfig, createMeta] = useMutation(CRATE_CONFIG_MUTATION, {
+    refetchQueries: ['GetAllSocialConfig'],
+  });
+  const [updateSocialConfig, updateMeta] = useMutation(UPDATE_CONFIG_MUTATION, {
+    refetchQueries: ['GetAllSocialConfig'],
   });
 
-  const onSubmit = (data: ConfigFormValues) => {
-    mutation.mutate(data);
+  const onSubmit = async (data: ConfigFormValues) => {
+    try {
+      if (initialData) {
+        await updateSocialConfig({ variables: { id: initialData.id ?? '', config: data } })
+      } else {
+        await createSocialConfig({ variables: { input: data } })
+      }
+      reset();
+    } catch (error) {
+
+    }
   };
 
   return (
@@ -136,7 +167,7 @@ export function ConfigForm({ initialData }: { initialData?: ConfigFormValues }) 
                 onBlur={field.onBlur}
                 onChange={field.onChange}
                 ref={field.ref}
-                disabled={mutation.isPending}
+                disabled={createMeta.loading || updateMeta.loading}
               />
               <div className="w-11 h-6 bg-gray-600 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
             </label>
@@ -146,10 +177,10 @@ export function ConfigForm({ initialData }: { initialData?: ConfigFormValues }) 
 
       <button
         type="submit"
-        disabled={mutation.isPending}
+        disabled={createMeta.loading || updateMeta.loading}
         className="w-full px-6 py-3 mt-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-500"
       >
-        {mutation.isPending ? t('saving') : t('saveConfiguration')}
+        {createMeta.loading || updateMeta.loading ? t('saving') : t('saveConfiguration')}
       </button>
     </form>
   );

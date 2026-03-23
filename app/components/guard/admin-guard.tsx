@@ -9,20 +9,23 @@ interface AdminGuardProps {
 }
 
 export default function AdminGuard({ url, children }: AdminGuardProps) {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   const pathName = usePathname();
 
   const router = useRouter();
 
   useEffect(() => {
-    if (pathName.includes(url) && !user?.admin) {
-      router.replace('/');
+    if (isLoading) {
+
+      if (pathName.includes(url) && typeof user?.admin === 'boolean' && !user?.admin) {
+        router.replace('/');
+      }
     }
-  }, [router, url, user, pathName]);
+  }, [isLoading, router, url, user, pathName]);
 
   if (!user?.admin) {
     return null;
   }
 
-  return (<>{children} </>);
+  return (<>{children}</>);
 }

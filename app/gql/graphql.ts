@@ -22,6 +22,12 @@ export type AcceptType = {
   status: AuthStatus | '%future added value';
 };
 
+export type ActiveSocialConfigType = {
+  __typename?: 'ActiveSocialConfigType';
+  active: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
+};
+
 export enum AuthStatus {
   Accept2fa = 'accept2fa',
   Adaptive = 'adaptive',
@@ -45,6 +51,14 @@ export type ChangePasswordType = {
   oldPassword: Scalars['String']['input'];
 };
 
+export type CreateSocialConfigDto = {
+  callbackUrl?: InputMaybe<Scalars['String']['input']>;
+  clientId: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  provider: Provider | '%future added value';
+  secret: Scalars['String']['input'];
+};
+
 export type CreateSocialUserType = {
   email: Scalars['String']['input'];
   provider: Scalars['String']['input'];
@@ -55,6 +69,11 @@ export type CreateUserType = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
   phone: Scalars['String']['input'];
+};
+
+export type DeleteSocialConfigType = {
+  __typename?: 'DeleteSocialConfigType';
+  id: Scalars['ID']['output'];
 };
 
 export type ForgotPasswordType = {
@@ -77,22 +96,36 @@ export type LoginType = {
 export type Mutation = {
   __typename?: 'Mutation';
   accept2fa: AcceptType;
+  activeSocialConfig: ActiveSocialConfigType;
   changePassword: StatusType;
+  createSocialConfig: SocialConfigType;
   createSocialUser: UserType;
   createUser: UserType;
+  deleteSocialConfig: DeleteSocialConfigType;
   forgotPassword: StatusType;
   loginUser: StatusType;
   logoutUser: StatusType;
   reject2fa: StatusType;
   resetPassword: StatusType;
+  updateSocialConfig: SocialConfigType;
   verify2fa: StatusType;
   verify2faCode: StatusType;
   verifyMfa: StatusType;
 };
 
 
+export type MutationActiveSocialConfigArgs = {
+  id: Scalars['String']['input'];
+};
+
+
 export type MutationChangePasswordArgs = {
   input: ChangePasswordType;
+};
+
+
+export type MutationCreateSocialConfigArgs = {
+  input: CreateSocialConfigDto;
 };
 
 
@@ -103,6 +136,11 @@ export type MutationCreateSocialUserArgs = {
 
 export type MutationCreateUserArgs = {
   input: CreateUserType;
+};
+
+
+export type MutationDeleteSocialConfigArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -121,6 +159,12 @@ export type MutationResetPasswordArgs = {
 };
 
 
+export type MutationUpdateSocialConfigArgs = {
+  config: UpdateSocialConfigDto;
+  id: Scalars['String']['input'];
+};
+
+
 export type MutationVerify2faArgs = {
   code: Scalars['String']['input'];
 };
@@ -135,11 +179,27 @@ export type MutationVerifyMfaArgs = {
   input: VerifyCodeType;
 };
 
+export enum Provider {
+  Facebook = 'facebook',
+  Github = 'github',
+  Google = 'google',
+  Linkedin = 'linkedin',
+  Microsoft = 'microsoft',
+  Twitter = 'twitter'
+}
+
 export type Query = {
   __typename?: 'Query';
   _ping?: Maybe<Scalars['Boolean']['output']>;
+  getAllConfig: SocialConfigsType;
+  getConfig: SocialConfigType;
   loginStatus: LoginStatusType;
   verifyToken: VerifyTokenType;
+};
+
+
+export type QueryGetConfigArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -152,9 +212,34 @@ export type ResetPasswordType = {
   token: Scalars['String']['input'];
 };
 
+export type SocialConfigType = {
+  __typename?: 'SocialConfigType';
+  active: Scalars['Boolean']['output'];
+  callbackUrl?: Maybe<Scalars['String']['output']>;
+  clientId: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  provider: Provider | '%future added value';
+  secret: Scalars['String']['output'];
+};
+
+export type SocialConfigsType = {
+  __typename?: 'SocialConfigsType';
+  configs: Array<SocialConfigType>;
+};
+
 export type StatusType = {
   __typename?: 'StatusType';
   status: AuthStatus | '%future added value';
+};
+
+export type UpdateSocialConfigDto = {
+  active?: InputMaybe<Scalars['Boolean']['input']>;
+  callbackUrl?: InputMaybe<Scalars['String']['input']>;
+  clientId?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  provider?: InputMaybe<Provider | '%future added value'>;
+  secret?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserStatusType = {
@@ -186,6 +271,40 @@ export type VerifyTokenType = {
   __typename?: 'VerifyTokenType';
   verify: Scalars['Boolean']['output'];
 };
+
+export type GetConfigByIdQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetConfigByIdQuery = { __typename?: 'Query', getConfig: { __typename?: 'SocialConfigType', id: string, name: string, clientId: string, secret: string, callbackUrl?: string | null, provider: Provider, active: boolean } };
+
+export type GetAllSocialConfigQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllSocialConfigQuery = { __typename?: 'Query', getAllConfig: { __typename?: 'SocialConfigsType', configs: Array<{ __typename?: 'SocialConfigType', callbackUrl?: string | null, clientId: string, id: string, name: string, provider: Provider, secret: string, active: boolean }> } };
+
+export type CreateConfigMutationVariables = Exact<{
+  input: CreateSocialConfigDto;
+}>;
+
+
+export type CreateConfigMutation = { __typename?: 'Mutation', createSocialConfig: { __typename?: 'SocialConfigType', id: string, name: string, clientId: string, secret: string, callbackUrl?: string | null, provider: Provider, active: boolean } };
+
+export type UpdateConfigMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  config: UpdateSocialConfigDto;
+}>;
+
+
+export type UpdateConfigMutation = { __typename?: 'Mutation', updateSocialConfig: { __typename?: 'SocialConfigType', id: string, name: string, clientId: string, secret: string, callbackUrl?: string | null, provider: Provider, active: boolean } };
+
+export type ToggleActiveMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type ToggleActiveMutation = { __typename?: 'Mutation', activeSocialConfig: { __typename?: 'ActiveSocialConfigType', active: boolean, id: string } };
 
 export type Verify2faMutationVariables = Exact<{
   code: Scalars['String']['input'];
@@ -271,6 +390,11 @@ export type Verify2faCodeMutationVariables = Exact<{
 export type Verify2faCodeMutation = { __typename?: 'Mutation', verify2faCode: { __typename?: 'StatusType', status: AuthStatus } };
 
 
+export const GetConfigByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetConfigById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getConfig"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"clientId"}},{"kind":"Field","name":{"kind":"Name","value":"secret"}},{"kind":"Field","name":{"kind":"Name","value":"callbackUrl"}},{"kind":"Field","name":{"kind":"Name","value":"provider"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]} as unknown as DocumentNode<GetConfigByIdQuery, GetConfigByIdQueryVariables>;
+export const GetAllSocialConfigDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllSocialConfig"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllConfig"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"configs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"callbackUrl"}},{"kind":"Field","name":{"kind":"Name","value":"clientId"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"provider"}},{"kind":"Field","name":{"kind":"Name","value":"secret"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllSocialConfigQuery, GetAllSocialConfigQueryVariables>;
+export const CreateConfigDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateConfig"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateSocialConfigDto"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createSocialConfig"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"clientId"}},{"kind":"Field","name":{"kind":"Name","value":"secret"}},{"kind":"Field","name":{"kind":"Name","value":"callbackUrl"}},{"kind":"Field","name":{"kind":"Name","value":"provider"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]} as unknown as DocumentNode<CreateConfigMutation, CreateConfigMutationVariables>;
+export const UpdateConfigDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateConfig"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"config"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateSocialConfigDto"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateSocialConfig"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"config"},"value":{"kind":"Variable","name":{"kind":"Name","value":"config"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"clientId"}},{"kind":"Field","name":{"kind":"Name","value":"secret"}},{"kind":"Field","name":{"kind":"Name","value":"callbackUrl"}},{"kind":"Field","name":{"kind":"Name","value":"provider"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]} as unknown as DocumentNode<UpdateConfigMutation, UpdateConfigMutationVariables>;
+export const ToggleActiveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ToggleActive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"activeSocialConfig"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<ToggleActiveMutation, ToggleActiveMutationVariables>;
 export const Verify2faDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Verify2fa"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"code"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verify2fa"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"code"},"value":{"kind":"Variable","name":{"kind":"Name","value":"code"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<Verify2faMutation, Verify2faMutationVariables>;
 export const StatusDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginStatus"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"phoneId"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"is2faEnabled"}},{"kind":"Field","name":{"kind":"Name","value":"isAdaptiveLoginEnabled"}},{"kind":"Field","name":{"kind":"Name","value":"admin"}}]}}]}}]}}]} as unknown as DocumentNode<StatusQuery, StatusQueryVariables>;
 export const LogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logoutUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<LogoutMutation, LogoutMutationVariables>;

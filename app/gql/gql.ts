@@ -14,6 +14,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
+    "\n  query GetConfigById($id: String!) {\n    getConfig(id: $id) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.GetConfigByIdDocument,
+    "\n  query GetAllSocialConfig {\n    getAllConfig {\n      configs {\n        callbackUrl\n        clientId\n        id\n        name\n        provider\n        secret\n        active\n      }\n    } \n  }\n": typeof types.GetAllSocialConfigDocument,
+    "\n  mutation CreateConfig($input: CreateSocialConfigDto!) {\n    createSocialConfig(input: $input) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.CreateConfigDocument,
+    "\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.UpdateConfigDocument,
+    "\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n": typeof types.ToggleActiveDocument,
     "\n  mutation Verify2fa($code:  String!) {\n    verify2fa(code: $code) {\n      status\n    }\n  }\n": typeof types.Verify2faDocument,
     "\n  query Status {\n    loginStatus {\n      status\n      phoneId\n      user {\n        id\n        email\n        is2faEnabled\n        isAdaptiveLoginEnabled\n        admin\n      }\n    }\n  }\n": typeof types.StatusDocument,
     "\n  mutation Logout {\n    logoutUser {\n      status\n    }\n  }\n": typeof types.LogoutDocument,
@@ -29,6 +34,11 @@ type Documents = {
     "\n  mutation Verify2faCode($input: Verify2faCodeType!) {\n    verify2faCode(input: $input) {\n      status\n    }\n  }\n": typeof types.Verify2faCodeDocument,
 };
 const documents: Documents = {
+    "\n  query GetConfigById($id: String!) {\n    getConfig(id: $id) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.GetConfigByIdDocument,
+    "\n  query GetAllSocialConfig {\n    getAllConfig {\n      configs {\n        callbackUrl\n        clientId\n        id\n        name\n        provider\n        secret\n        active\n      }\n    } \n  }\n": types.GetAllSocialConfigDocument,
+    "\n  mutation CreateConfig($input: CreateSocialConfigDto!) {\n    createSocialConfig(input: $input) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.CreateConfigDocument,
+    "\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.UpdateConfigDocument,
+    "\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n": types.ToggleActiveDocument,
     "\n  mutation Verify2fa($code:  String!) {\n    verify2fa(code: $code) {\n      status\n    }\n  }\n": types.Verify2faDocument,
     "\n  query Status {\n    loginStatus {\n      status\n      phoneId\n      user {\n        id\n        email\n        is2faEnabled\n        isAdaptiveLoginEnabled\n        admin\n      }\n    }\n  }\n": types.StatusDocument,
     "\n  mutation Logout {\n    logoutUser {\n      status\n    }\n  }\n": types.LogoutDocument,
@@ -58,6 +68,26 @@ const documents: Documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetConfigById($id: String!) {\n    getConfig(id: $id) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n"): (typeof documents)["\n  query GetConfigById($id: String!) {\n    getConfig(id: $id) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetAllSocialConfig {\n    getAllConfig {\n      configs {\n        callbackUrl\n        clientId\n        id\n        name\n        provider\n        secret\n        active\n      }\n    } \n  }\n"): (typeof documents)["\n  query GetAllSocialConfig {\n    getAllConfig {\n      configs {\n        callbackUrl\n        clientId\n        id\n        name\n        provider\n        secret\n        active\n      }\n    } \n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateConfig($input: CreateSocialConfigDto!) {\n    createSocialConfig(input: $input) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n"): (typeof documents)["\n  mutation CreateConfig($input: CreateSocialConfigDto!) {\n    createSocialConfig(input: $input) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

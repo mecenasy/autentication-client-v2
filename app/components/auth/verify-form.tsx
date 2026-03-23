@@ -3,7 +3,6 @@ import { useVerify } from '../../hooks/use-verify';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { useAuth } from '@/app/hooks/use-auth';
 import { AuthStatus } from '@/app/gql/graphql';
 
 interface VerifyFormProps {
@@ -44,10 +43,6 @@ const VerifyForm = ({ verifyType, login, callback }: VerifyFormProps) => {
       transports: ['websocket'],
     });
 
-    webSocketUrl.current.on('connect', () => {
-      console.log('sdsdfsdfsfsdfsfsdf')
-    });
-
     webSocketUrl.current.on('code', ({ code, type }: SockedData) => {
       if (type === 'SMS-CODE') {
         setSmsCode(code);
@@ -85,9 +80,11 @@ const VerifyForm = ({ verifyType, login, callback }: VerifyFormProps) => {
         >
           {isPending ? t('verifying') : t('verify')}
         </button>
-        <p className="text-center text-black p-2.5 border-2 border-blue-500 bg-gray-200 rounded-lg my-4">{smsStatus}</p>
         {verifyType === AuthStatus.Sms && (
-          <p className="text-center text-gray-300 my-4">{t('smsInfo')}</p>
+          <>
+            <p className="text-center text-black p-2.5 border-2 border-blue-500 bg-gray-200 rounded-lg my-4">{smsStatus}</p>
+            <p className="text-center text-gray-300 my-4">{t('smsInfo')}</p>
+          </>
         )}
       </form>
     </>

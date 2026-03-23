@@ -27,7 +27,7 @@ function ResetPasswordComponent() {
     return <p className="text-white">{t('verifying')}</p>;
   }
 
-  if (!token || tokenVerification?.status !== 200) {
+  if (!token || !tokenVerification) {
     return <ReturnLogin />
   }
 

@@ -1,13 +1,21 @@
 import { changePasswordSchema } from '@/app/components/schemas/schemas';
-import axios from '@/src/api/api';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useRouter } from '../components/navigation/navigation';
 import { useTranslations } from 'next-intl';
+import { graphql } from '../gql';
+import { useMutation } from '@apollo/client/react';
 
 type ChangePasswordFormValues = z.infer<ReturnType<typeof changePasswordSchema>>;
+
+const CHANGE_PASSWORD_MUTATION = graphql(`
+  mutation ChangePassword($input: ChangePasswordType!) {
+    changePassword(input: $input) {
+      status
+    }
+  }
+`);
 
 export const useChangePassword = () => {
   const t = useTranslations('changePassword');
@@ -22,31 +30,32 @@ export const useChangePassword = () => {
     resolver: zodResolver(changePasswordSchema(tSchemas)),
   });
 
-  const mutation = useMutation({
-    mutationFn: (data: ChangePasswordFormValues) => {
-      return axios.post("/api/auth/change-password", {
-        oldPassword: data.oldPassword,
-        newPassword: data.password,
+  const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD_MUTATION);
+
+  const onSubmit = async (data: ChangePasswordFormValues) => {
+    try {
+      await changePassword({
+        variables: {
+          input: {
+            oldPassword: data.oldPassword,
+            newPassword: data.password,
+          }
+        }
       });
-    },
-    onSuccess: () => {
+
       alert(t('correct'));
       router.replace("/");
-    },
-    onError: (error: Error) => {
+    } catch {
       alert(t('error'));
-    },
-  });
 
-  const onSubmit = (data: ChangePasswordFormValues) => {
-    mutation.mutate(data);
+    }
   };
 
   return {
     register,
     errors,
     onSubmit: handleSubmit(onSubmit),
-    isPending: mutation.isPending,
+    isPending: loading,
   };
 
 }

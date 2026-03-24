@@ -16,6 +16,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 type Documents = {
     "\n  query GetConfigById($id: String!) {\n    getConfig(id: $id) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.GetConfigByIdDocument,
     "\n  query GetAllSocialConfig {\n    getAllConfig {\n      configs {\n        callbackUrl\n        clientId\n        id\n        name\n        provider\n        secret\n        active\n      }\n    } \n  }\n": typeof types.GetAllSocialConfigDocument,
+    "\n  mutation Verification($token: String!) {\n    verificationToken(token: $token) {\n      status\n    }\n  }\n": typeof types.VerificationDocument,
     "\n  mutation CreateConfig($input: CreateSocialConfigDto!) {\n    createSocialConfig(input: $input) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.CreateConfigDocument,
     "\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.UpdateConfigDocument,
     "\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n": typeof types.ToggleActiveDocument,
@@ -36,6 +37,7 @@ type Documents = {
 const documents: Documents = {
     "\n  query GetConfigById($id: String!) {\n    getConfig(id: $id) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.GetConfigByIdDocument,
     "\n  query GetAllSocialConfig {\n    getAllConfig {\n      configs {\n        callbackUrl\n        clientId\n        id\n        name\n        provider\n        secret\n        active\n      }\n    } \n  }\n": types.GetAllSocialConfigDocument,
+    "\n  mutation Verification($token: String!) {\n    verificationToken(token: $token) {\n      status\n    }\n  }\n": types.VerificationDocument,
     "\n  mutation CreateConfig($input: CreateSocialConfigDto!) {\n    createSocialConfig(input: $input) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.CreateConfigDocument,
     "\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.UpdateConfigDocument,
     "\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n": types.ToggleActiveDocument,
@@ -76,6 +78,10 @@ export function graphql(source: "\n  query GetConfigById($id: String!) {\n    ge
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetAllSocialConfig {\n    getAllConfig {\n      configs {\n        callbackUrl\n        clientId\n        id\n        name\n        provider\n        secret\n        active\n      }\n    } \n  }\n"): (typeof documents)["\n  query GetAllSocialConfig {\n    getAllConfig {\n      configs {\n        callbackUrl\n        clientId\n        id\n        name\n        provider\n        secret\n        active\n      }\n    } \n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation Verification($token: String!) {\n    verificationToken(token: $token) {\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation Verification($token: String!) {\n    verificationToken(token: $token) {\n      status\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

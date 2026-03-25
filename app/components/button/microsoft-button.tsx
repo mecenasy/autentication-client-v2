@@ -8,29 +8,23 @@ import { SocialButtonProps } from './types';
 
 const MicrosoftButton = ({ type }: SocialButtonProps) => {
   const { instance, accounts } = useMsal()
-  console.log("🚀 ~ MicrosoftButton ~ instance, accounts:", instance, accounts)
   const account = useAccount(accounts[0] || {});
   const authHandle = useCallback(async () => {
     try {
-      console.log("🚀 ~ MicrosoftButton ~ type:", type)
       await instance.loginPopup(loginRequest);
-      console.log("🚀 ~ MicrosoftButton ~ instance:", instance)
       const activeAccount = instance.getAllAccounts()[0];
-      console.log("🚀 ~ MicrosoftButton ~ activeAccount:", activeAccount)
       instance.setActiveAccount(activeAccount);
 
       const re = await instance.acquireTokenSilent({
         ...loginRequest,
         account: account!
       });
-      console.log("🚀 ~ MicrosoftButton ~ r:", re)
       await axios.post(type === 'register' ? '/api/user/azure-register' : `/api/auth/azure-login`, {}, {
         headers: {
           Authorization: `Bearer ${re.accessToken}`
         }
       })
     } catch (errot) {
-      console.log("🚀 ~ MicrosoftButton ~ errot:", errot)
     }
   }, [type, instance, account]);
 

@@ -13,14 +13,14 @@ export default function BiometricsSettings({ setShow }: BiometricsProps) {
     <div className="p-4 mt-6 bg-white border rounded-lg shadow-sm">
       <h2 className="text-xl text-black font-bold mb-4">{t('title')}</h2>
       <div className="space-y-3 mb-6">
-        {keys.map((key) => (
+        {keys?.map((key) => (
           <div key={key.id} className="flex border text-black border-solid border-gray-300 bg-gray-200  justify-between items-center p-2  rounded">
             <div>
               <p className="font-medium">{key.deviceName || t('default')}</p>
               <p className="text-xs text-gray-500">{t('added', { date: new Date(key.createAt).toLocaleDateString() })}</p>
             </div>
             <button
-              onClick={() => onRemoveKey(key.id)}
+              onClick={() => onRemoveKey(key.id, key.credentialID)}
               className="text-red-500 text-sm hover:underline"
             >
               {t('remove')}

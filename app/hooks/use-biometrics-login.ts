@@ -2,12 +2,12 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from '../../src/api/api';
 import { PublicKeyCredentialCreationOptionsJSON, startAuthentication } from '@simplewebauthn/browser';
-import { useAuth } from './use-auth';
 import { useTranslations } from 'next-intl';
+import { useRouter } from '../components/navigation/navigation';
 
 export const useBiometricsLogin = (token?: string, callback?: () => void) => {
   const t = useTranslations('auth')
-  const { refetch } = useAuth();
+  const router = useRouter();
   const mutation = useMutation({
     mutationFn: async () => {
       try {
@@ -26,7 +26,7 @@ export const useBiometricsLogin = (token?: string, callback?: () => void) => {
       }
     },
     onSuccess: () => {
-      refetch()
+      router.replace('/');
     },
     onError: () => {
       alert(t('loginWrong'));

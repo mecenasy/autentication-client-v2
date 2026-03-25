@@ -1,54 +1,58 @@
-import axios from '@/src/api/api';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { graphql } from '../gql';
+import { useEffect } from 'react';
+import { useMutation, useQuery } from '@apollo/client/react';
 
-interface PassList {
-  id: string;
-  createAt: Date;
-  deviceName: string;
-}
+const PASSKEYS_QUERY = graphql(`
+  query GetPasskeys {
+    getPasskeys {
+      id
+      createAt
+      deviceName
+      credentialID
+    }
+  }
+`);
+
+const REMOVE_PASSKEY_MUTATION = graphql(`
+  mutation RemovePasskey($id: String!) {
+    removePasskey(id: $id) {
+      status
+    }
+  }
+`);
 
 export const useBiometricsSettings = (setShow: (show: boolean) => void) => {
-  const queryClient = useQueryClient();
+  const { data, loading } = useQuery(PASSKEYS_QUERY, {
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'cache-first',
+  });
+  const keys = data?.getPasskeys;
 
-  const { data: keys = [], isLoading } = useQuery({
-    queryKey: ['passkeys'],
-    queryFn: async () => {
-      const res = await axios.get<PassList[]>('/api/passkey/biometrics/keys');
-      return res.data;
-    }
+  const isLocal = keys?.some((key) => {
+    return localStorage.getItem(`webauthn_${key.credentialID}`) === 'true';
   });
 
-  const { data: isCurrentDeviceActive } = useQuery({
-    queryKey: ['isDeviceRegistered', keys],
-    queryFn: async () => {
-      const isLocal = keys.some((key: PassList) => {
-        return localStorage.getItem(`webauthn_${key.id}`) === 'true';
+  useEffect(() => {
+    setShow(!isLocal);
+  }, [isLocal, setShow])
 
-      });
-      setShow(!isLocal);
-      return isLocal;
-    },
-    enabled: keys.length >= 0,
+  const [removePasskey] = useMutation(REMOVE_PASSKEY_MUTATION, {
+    refetchQueries: ['GetPasskeys'],
   });
 
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      await axios.delete(`/api/passkey/biometrics/${id}`);
-      return id
-    },
-    onSuccess: (id) => {
-      const isCurrentDeviceActive = localStorage.getItem(`webauthn_${id}`);
+  const onRemoveKey = async (key: string, credentialId: string) => {
+    try {
+      await removePasskey({ variables: { id: key } });
+      const isCurrentDeviceActive = localStorage.getItem(`webauthn_${credentialId}`);
 
       if (isCurrentDeviceActive) {
         setShow(true)
-        localStorage.removeItem(`webauthn_${id}`);
+        localStorage.removeItem(`webauthn_${credentialId}`);
       }
-      queryClient.invalidateQueries({ queryKey: ['passkeys'] });
+    } catch (error) {
+
     }
-  });
-  const onRemoveKey = (key: string) => {
-    deleteMutation.mutate(key)
   }
 
-  return { keys, isLoading, isCurrentDeviceActive, onRemoveKey };
+  return { keys, isLoading: loading, isCurrentDeviceActive: isLocal, onRemoveKey };
 }

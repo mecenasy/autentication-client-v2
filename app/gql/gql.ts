@@ -21,8 +21,11 @@ type Documents = {
     "\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.UpdateConfigDocument,
     "\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n": typeof types.ToggleActiveDocument,
     "\n  mutation Verify2fa($code:  String!) {\n    verify2fa(code: $code) {\n      status\n    }\n  }\n": typeof types.Verify2faDocument,
+    "\n  mutation AcceptAdaptiveLogin {\n    adaptiveLogin {\n      active \n    }\n  } \n": typeof types.AcceptAdaptiveLoginDocument,
     "\n  query Status {\n    loginStatus {\n      status\n      phoneId\n      user {\n        id\n        email\n        is2faEnabled\n        isAdaptiveLoginEnabled\n        admin\n      }\n    }\n  }\n": typeof types.StatusDocument,
     "\n  mutation Logout {\n    logoutUser {\n      status\n    }\n  }\n": typeof types.LogoutDocument,
+    "\n  query GetPasskeys {\n    getPasskeys {\n      id\n      createAt\n      deviceName\n      credentialID\n    }\n  }\n": typeof types.GetPasskeysDocument,
+    "\n  mutation RemovePasskey($id: String!) {\n    removePasskey(id: $id) {\n      status\n    }\n  }\n": typeof types.RemovePasskeyDocument,
     "\n  mutation ChangePassword($input: ChangePasswordType!) {\n    changePassword(input: $input) {\n      status\n    }\n  }\n": typeof types.ChangePasswordDocument,
     "\n  mutation ForgotPassword($input: ForgotPasswordType!) {\n    forgotPassword(input: $input) {\n      status\n    }\n  }\n": typeof types.ForgotPasswordDocument,
     "\n  mutation Login($input: LoginType!) {\n    loginUser(input: $input) {\n      status\n    }\n  }\n": typeof types.LoginDocument,
@@ -42,8 +45,11 @@ const documents: Documents = {
     "\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.UpdateConfigDocument,
     "\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n": types.ToggleActiveDocument,
     "\n  mutation Verify2fa($code:  String!) {\n    verify2fa(code: $code) {\n      status\n    }\n  }\n": types.Verify2faDocument,
+    "\n  mutation AcceptAdaptiveLogin {\n    adaptiveLogin {\n      active \n    }\n  } \n": types.AcceptAdaptiveLoginDocument,
     "\n  query Status {\n    loginStatus {\n      status\n      phoneId\n      user {\n        id\n        email\n        is2faEnabled\n        isAdaptiveLoginEnabled\n        admin\n      }\n    }\n  }\n": types.StatusDocument,
     "\n  mutation Logout {\n    logoutUser {\n      status\n    }\n  }\n": types.LogoutDocument,
+    "\n  query GetPasskeys {\n    getPasskeys {\n      id\n      createAt\n      deviceName\n      credentialID\n    }\n  }\n": types.GetPasskeysDocument,
+    "\n  mutation RemovePasskey($id: String!) {\n    removePasskey(id: $id) {\n      status\n    }\n  }\n": types.RemovePasskeyDocument,
     "\n  mutation ChangePassword($input: ChangePasswordType!) {\n    changePassword(input: $input) {\n      status\n    }\n  }\n": types.ChangePasswordDocument,
     "\n  mutation ForgotPassword($input: ForgotPasswordType!) {\n    forgotPassword(input: $input) {\n      status\n    }\n  }\n": types.ForgotPasswordDocument,
     "\n  mutation Login($input: LoginType!) {\n    loginUser(input: $input) {\n      status\n    }\n  }\n": types.LoginDocument,
@@ -101,11 +107,23 @@ export function graphql(source: "\n  mutation Verify2fa($code:  String!) {\n    
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation AcceptAdaptiveLogin {\n    adaptiveLogin {\n      active \n    }\n  } \n"): (typeof documents)["\n  mutation AcceptAdaptiveLogin {\n    adaptiveLogin {\n      active \n    }\n  } \n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query Status {\n    loginStatus {\n      status\n      phoneId\n      user {\n        id\n        email\n        is2faEnabled\n        isAdaptiveLoginEnabled\n        admin\n      }\n    }\n  }\n"): (typeof documents)["\n  query Status {\n    loginStatus {\n      status\n      phoneId\n      user {\n        id\n        email\n        is2faEnabled\n        isAdaptiveLoginEnabled\n        admin\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation Logout {\n    logoutUser {\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation Logout {\n    logoutUser {\n      status\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetPasskeys {\n    getPasskeys {\n      id\n      createAt\n      deviceName\n      credentialID\n    }\n  }\n"): (typeof documents)["\n  query GetPasskeys {\n    getPasskeys {\n      id\n      createAt\n      deviceName\n      credentialID\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation RemovePasskey($id: String!) {\n    removePasskey(id: $id) {\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation RemovePasskey($id: String!) {\n    removePasskey(id: $id) {\n      status\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -2,11 +2,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import axios from '../../src/api/api';
 import { PublicKeyCredentialCreationOptionsJSON, startRegistration } from '@simplewebauthn/browser';
+import { useApolloClient } from '@apollo/client/react';
 
 
 export const useBiometricsEnabled = (setShow: (show: boolean) => void) => {
   const [credentialId, setCredentialId] = useState('');
   const queryClient = useQueryClient();
+  const client = useApolloClient();
 
   const mutation = useMutation({
     mutationFn: async (accept: boolean) => {
@@ -16,7 +18,12 @@ export const useBiometricsEnabled = (setShow: (show: boolean) => void) => {
           const regResponse = await startRegistration({ optionsJSON: options });
 
           await axios.post('/api/passkey/biometrics/verify-registration', regResponse);
-          localStorage.setItem(`webauthn_${regResponse.id}`, 'true')
+          localStorage.setItem(`webauthn_${regResponse.id}`, 'true');
+
+          await client.refetchQueries({
+            include: ['GetPasskeys'],
+          });
+
           return regResponse.id;
         } catch (err) {
           console.error('Błąd biometrii:', err);

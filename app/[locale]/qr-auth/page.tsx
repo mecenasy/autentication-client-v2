@@ -3,17 +3,29 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import Image from 'next/image';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import axios from '@/src/api/api';
+import { useMutation, useQuery } from '@apollo/client/react';
 import { v4 as uuid } from 'uuid';
 import { io, Socket } from 'socket.io-client';
 import { useRouter } from '@/app/components/navigation/navigation';
 import { useTranslations } from 'next-intl';
+import { graphql } from '@/app/gql';
 
-interface Response {
-  dataUrl: string;
-  challenge: string;
-}
+const CHALLENGE_MUTATION = graphql(`
+  mutation QrChallenge ($nonce: String!) {
+    qrChallenge(nonce: $nonce) {
+      challenge
+      dataUrl
+    }
+  }
+`);
+
+const LOGIN_MUTATION = graphql(`
+  mutation QrLogin ($challenge: String!, $nonce: String!) {
+    qrLogin(challenge: $challenge, nonce: $nonce) {
+      status
+    }
+  }
+`);
 
 export default function QrAuth() {
   const [nonce] = useState(uuid())
@@ -21,54 +33,36 @@ export default function QrAuth() {
   const router = useRouter();
   const t = useTranslations('qrCode');
 
-
-  const { data } = useQuery<Response>({
-    queryKey: ['qr-auth'],
-    queryFn: async () => {
-      try {
-
-        const { data } = await axios.post<Response>('/api/qr-auth/challenge', {
-          nonce,
-        });
-        return data;
-      } catch (error) {
-        throw new Error(error as string);
-      }
-    },
-    refetchOnWindowFocus: false,
+  const [runMutation, { data }] = useMutation(CHALLENGE_MUTATION, {
+    variables: { nonce },
   });
 
-  const mutation = useMutation({
-    mutationFn: async () => {
-      return axios.post("/api/qr-auth/login", {
-        challenge: data?.challenge,
-        nonce
-      });
-    },
-    onSuccess: () => {
-      alert(t('success'));
-      router.replace("/");
-    },
-    onError: () => {
-      alert(t('alert'));
-      router.replace("/");
-    }
-  })
+  const [qrLogin] = useMutation(LOGIN_MUTATION)
 
   useEffect(() => {
-    if (data?.challenge) {
+    if (nonce) {
+      runMutation({ variables: { nonce } });
+    }
+  }, [nonce, runMutation]);
+
+  const challenge = data?.qrChallenge?.challenge;
+  const dataUrl = data?.qrChallenge?.dataUrl;
+
+  useEffect(() => {
+    if (challenge) {
       webSocketUrl.current = io(`${process.env.NEXT_PUBLIC_API_HOST_URL}/getaway`, {
         query: {
-          challenge: data.challenge,
+          challenge,
         },
         transports: ['websocket'],
       });
 
-      webSocketUrl.current.on('challenge', ({ status, type, ...rest }) => {
+      webSocketUrl.current.on('challenge', async ({ status, type, ...rest }) => {
         if (nonce === rest.nonce && type === 'QR-AUTH') {
           switch (status) {
             case 'verified':
-              mutation.mutate();
+              await qrLogin({ variables: { challenge, nonce } });
+              router.replace("/");
               break;
             case 'rejected':
               alert(t('canceled'));
@@ -92,11 +86,11 @@ export default function QrAuth() {
         webSocketUrl.current.close();
       }
     };
-  }, [data?.challenge, mutation, t, router, nonce]);
+  }, [challenge, qrLogin, t, router, nonce]);
 
   const animationProps = useSpring({
     from: { opacity: 0, height: '0px', marginTop: '0px' },
-    to: { opacity: 1, height: data?.dataUrl ? '460px' : '0px', marginTop: data?.dataUrl ? '16px' : '0px' },
+    to: { opacity: 1, height: dataUrl ? '460px' : '0px', marginTop: dataUrl ? '16px' : '0px' },
     config: { tension: 200, duration: 200, friction: 20 },
   });
 
@@ -108,7 +102,7 @@ export default function QrAuth() {
             {t('title')}
           </h1>
           <div className="p-4 bg-white rounded-lg">
-            {data?.dataUrl && <Image src={data?.dataUrl} alt="QR Code" width={200} height={200} />}
+            {dataUrl && <Image src={dataUrl} alt="QR Code" width={200} height={200} />}
           </div>
           <p className="text-white text-center mt-10">
             {t('description')}

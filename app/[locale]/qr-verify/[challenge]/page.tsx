@@ -1,41 +1,72 @@
 "use client";
 
 import { useRouter } from '@/app/components/navigation/navigation';
+import { graphql } from '@/app/gql';
 import { PublicKeyCredentialCreationOptionsJSON, startAuthentication } from '@simplewebauthn/browser';
 import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@apollo/client/react';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';
-import { use } from 'react';
+import { use, useEffect } from 'react';
 
 interface Props {
   params: Promise<{ challenge: string }>
   searchParams: Promise<{ nonce: string }>
 }
+
+const QR_REJECT_MUTATION = graphql(`
+  mutation QrReject ($challenge: String!) {
+    qrReject(challenge: $challenge) {
+      status
+    }
+  }
+`);
+
+const QR_OPTION_MUTATION = graphql(`
+  mutation QrOption ($challenge: String!, $nonce: String!) {
+    qrOption(challenge: $challenge, nonce: $nonce)    
+  }
+`);
+
+const QR_CONFIRM_MUTATION = graphql(`
+  mutation QrVerify ($challenge: String!, $data: JSON!) {
+    qrConfirm(challenge: $challenge, data: $data) {
+      status
+    }    
+  }
+`)
+
 export default function QrVerify(props: Props) {
   const { challenge } = use(props.params);
   const { nonce } = use(props.searchParams);
+
   const t = useTranslations('qrCodeLogin');
+
   const router = useRouter();
 
-  useQuery({
-    queryKey: ['qr-auth'],
-    queryFn: async () => {
+  const [qrReject] = useMutation(QR_REJECT_MUTATION);
+  const [qrOption] = useMutation(QR_OPTION_MUTATION);
+  const [qrConfirm] = useMutation(QR_CONFIRM_MUTATION);
+
+  useEffect(() => {
+    const login = async (challenge: string, nonce: string) => {
       try {
-        const { data: options } = await axios.post<PublicKeyCredentialCreationOptionsJSON>(`/api/qr-auth/options`, { challenge, nonce });
+        const { data } = await qrOption({ variables: { challenge, nonce } });
+        const options = data?.qrOption;
+        console.log("🚀 ~ login ~ options:", options)
+
         const regResponse = await startAuthentication({ optionsJSON: options });
 
-        await axios.post(`/api/qr-auth/confirm/${challenge}`, regResponse);
+        await qrConfirm({ variables: { challenge, data: regResponse } });
         router.replace("/thankyou");
-      } catch {
-        console.log('')
-        await axios.post(`/api/qr-auth/reject/${challenge}`);
+      } catch (error) {
+        console.log(error)
+        await qrReject({ variables: { challenge } });
         router.replace("/thankyou");
-
       }
-    },
-    enabled: !!challenge,
-    refetchOnWindowFocus: false,
-  });
+    }
+    login(challenge, nonce);
+  }, [qrConfirm, qrOption, qrReject, challenge, nonce, router])
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-800 font-sans">

@@ -16,6 +16,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 type Documents = {
     "\n  query GetConfigById($id: String!) {\n    getConfig(id: $id) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.GetConfigByIdDocument,
     "\n  query GetAllSocialConfig {\n    getAllConfig {\n      configs {\n        callbackUrl\n        clientId\n        id\n        name\n        provider\n        secret\n        active\n      }\n    } \n  }\n": typeof types.GetAllSocialConfigDocument,
+    "\n  mutation QrChallenge ($nonce: String!) {\n    qrChallenge(nonce: $nonce) {\n      challenge\n      dataUrl\n    }\n  }\n": typeof types.QrChallengeDocument,
+    "\n  mutation QrLogin ($challenge: String!, $nonce: String!) {\n    qrLogin(challenge: $challenge, nonce: $nonce) {\n      status\n    }\n  }\n": typeof types.QrLoginDocument,
+    "\n  mutation QrReject ($challenge: String!) {\n    qrReject(challenge: $challenge) {\n      status\n    }\n  }\n": typeof types.QrRejectDocument,
+    "\n  mutation QrOption ($challenge: String!, $nonce: String!) {\n    qrOption(challenge: $challenge, nonce: $nonce)    \n  }\n": typeof types.QrOptionDocument,
+    "\n  mutation QrVerify ($challenge: String!, $data: JSON!) {\n    qrConfirm(challenge: $challenge, data: $data) {\n      status\n    }    \n  }\n": typeof types.QrVerifyDocument,
     "\n  mutation Verification($token: String!) {\n    verificationToken(token: $token) {\n      status\n    }\n  }\n": typeof types.VerificationDocument,
     "\n  mutation CreateConfig($input: CreateSocialConfigDto!) {\n    createSocialConfig(input: $input) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.CreateConfigDocument,
     "\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.UpdateConfigDocument,
@@ -24,6 +29,10 @@ type Documents = {
     "\n  mutation AcceptAdaptiveLogin {\n    adaptiveLogin {\n      active \n    }\n  } \n": typeof types.AcceptAdaptiveLoginDocument,
     "\n  query Status {\n    loginStatus {\n      status\n      phoneId\n      user {\n        id\n        email\n        is2faEnabled\n        isAdaptiveLoginEnabled\n        admin\n      }\n    }\n  }\n": typeof types.StatusDocument,
     "\n  mutation Logout {\n    logoutUser {\n      status\n    }\n  }\n": typeof types.LogoutDocument,
+    "\n  mutation RegisterOptionPasskey {\n    registerOptionPasskey\n  }\n": typeof types.RegisterOptionPasskeyDocument,
+    "\n  mutation VerifyRegistration($input: JSON!) {\n    registerOptionPasskeyVerify(data: $input) {\n      status\n    }\n  }\n": typeof types.VerifyRegistrationDocument,
+    "\n  mutation GetPasskeyOptions {\n    optionPasskey\n  }\n": typeof types.GetPasskeyOptionsDocument,
+    "\n  mutation VerifyPasskey($input: JSON!) {\n    optionPasskeyVerify(data: $input) {\n      status\n    }\n  }\n": typeof types.VerifyPasskeyDocument,
     "\n  query GetPasskeys {\n    getPasskeys {\n      id\n      createAt\n      deviceName\n      credentialID\n    }\n  }\n": typeof types.GetPasskeysDocument,
     "\n  mutation RemovePasskey($id: String!) {\n    removePasskey(id: $id) {\n      status\n    }\n  }\n": typeof types.RemovePasskeyDocument,
     "\n  mutation ChangePassword($input: ChangePasswordType!) {\n    changePassword(input: $input) {\n      status\n    }\n  }\n": typeof types.ChangePasswordDocument,
@@ -40,6 +49,11 @@ type Documents = {
 const documents: Documents = {
     "\n  query GetConfigById($id: String!) {\n    getConfig(id: $id) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.GetConfigByIdDocument,
     "\n  query GetAllSocialConfig {\n    getAllConfig {\n      configs {\n        callbackUrl\n        clientId\n        id\n        name\n        provider\n        secret\n        active\n      }\n    } \n  }\n": types.GetAllSocialConfigDocument,
+    "\n  mutation QrChallenge ($nonce: String!) {\n    qrChallenge(nonce: $nonce) {\n      challenge\n      dataUrl\n    }\n  }\n": types.QrChallengeDocument,
+    "\n  mutation QrLogin ($challenge: String!, $nonce: String!) {\n    qrLogin(challenge: $challenge, nonce: $nonce) {\n      status\n    }\n  }\n": types.QrLoginDocument,
+    "\n  mutation QrReject ($challenge: String!) {\n    qrReject(challenge: $challenge) {\n      status\n    }\n  }\n": types.QrRejectDocument,
+    "\n  mutation QrOption ($challenge: String!, $nonce: String!) {\n    qrOption(challenge: $challenge, nonce: $nonce)    \n  }\n": types.QrOptionDocument,
+    "\n  mutation QrVerify ($challenge: String!, $data: JSON!) {\n    qrConfirm(challenge: $challenge, data: $data) {\n      status\n    }    \n  }\n": types.QrVerifyDocument,
     "\n  mutation Verification($token: String!) {\n    verificationToken(token: $token) {\n      status\n    }\n  }\n": types.VerificationDocument,
     "\n  mutation CreateConfig($input: CreateSocialConfigDto!) {\n    createSocialConfig(input: $input) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.CreateConfigDocument,
     "\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.UpdateConfigDocument,
@@ -48,6 +62,10 @@ const documents: Documents = {
     "\n  mutation AcceptAdaptiveLogin {\n    adaptiveLogin {\n      active \n    }\n  } \n": types.AcceptAdaptiveLoginDocument,
     "\n  query Status {\n    loginStatus {\n      status\n      phoneId\n      user {\n        id\n        email\n        is2faEnabled\n        isAdaptiveLoginEnabled\n        admin\n      }\n    }\n  }\n": types.StatusDocument,
     "\n  mutation Logout {\n    logoutUser {\n      status\n    }\n  }\n": types.LogoutDocument,
+    "\n  mutation RegisterOptionPasskey {\n    registerOptionPasskey\n  }\n": types.RegisterOptionPasskeyDocument,
+    "\n  mutation VerifyRegistration($input: JSON!) {\n    registerOptionPasskeyVerify(data: $input) {\n      status\n    }\n  }\n": types.VerifyRegistrationDocument,
+    "\n  mutation GetPasskeyOptions {\n    optionPasskey\n  }\n": types.GetPasskeyOptionsDocument,
+    "\n  mutation VerifyPasskey($input: JSON!) {\n    optionPasskeyVerify(data: $input) {\n      status\n    }\n  }\n": types.VerifyPasskeyDocument,
     "\n  query GetPasskeys {\n    getPasskeys {\n      id\n      createAt\n      deviceName\n      credentialID\n    }\n  }\n": types.GetPasskeysDocument,
     "\n  mutation RemovePasskey($id: String!) {\n    removePasskey(id: $id) {\n      status\n    }\n  }\n": types.RemovePasskeyDocument,
     "\n  mutation ChangePassword($input: ChangePasswordType!) {\n    changePassword(input: $input) {\n      status\n    }\n  }\n": types.ChangePasswordDocument,
@@ -87,6 +105,26 @@ export function graphql(source: "\n  query GetAllSocialConfig {\n    getAllConfi
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation QrChallenge ($nonce: String!) {\n    qrChallenge(nonce: $nonce) {\n      challenge\n      dataUrl\n    }\n  }\n"): (typeof documents)["\n  mutation QrChallenge ($nonce: String!) {\n    qrChallenge(nonce: $nonce) {\n      challenge\n      dataUrl\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation QrLogin ($challenge: String!, $nonce: String!) {\n    qrLogin(challenge: $challenge, nonce: $nonce) {\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation QrLogin ($challenge: String!, $nonce: String!) {\n    qrLogin(challenge: $challenge, nonce: $nonce) {\n      status\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation QrReject ($challenge: String!) {\n    qrReject(challenge: $challenge) {\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation QrReject ($challenge: String!) {\n    qrReject(challenge: $challenge) {\n      status\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation QrOption ($challenge: String!, $nonce: String!) {\n    qrOption(challenge: $challenge, nonce: $nonce)    \n  }\n"): (typeof documents)["\n  mutation QrOption ($challenge: String!, $nonce: String!) {\n    qrOption(challenge: $challenge, nonce: $nonce)    \n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation QrVerify ($challenge: String!, $data: JSON!) {\n    qrConfirm(challenge: $challenge, data: $data) {\n      status\n    }    \n  }\n"): (typeof documents)["\n  mutation QrVerify ($challenge: String!, $data: JSON!) {\n    qrConfirm(challenge: $challenge, data: $data) {\n      status\n    }    \n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  mutation Verification($token: String!) {\n    verificationToken(token: $token) {\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation Verification($token: String!) {\n    verificationToken(token: $token) {\n      status\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -116,6 +154,22 @@ export function graphql(source: "\n  query Status {\n    loginStatus {\n      st
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation Logout {\n    logoutUser {\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation Logout {\n    logoutUser {\n      status\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation RegisterOptionPasskey {\n    registerOptionPasskey\n  }\n"): (typeof documents)["\n  mutation RegisterOptionPasskey {\n    registerOptionPasskey\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation VerifyRegistration($input: JSON!) {\n    registerOptionPasskeyVerify(data: $input) {\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation VerifyRegistration($input: JSON!) {\n    registerOptionPasskeyVerify(data: $input) {\n      status\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation GetPasskeyOptions {\n    optionPasskey\n  }\n"): (typeof documents)["\n  mutation GetPasskeyOptions {\n    optionPasskey\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation VerifyPasskey($input: JSON!) {\n    optionPasskeyVerify(data: $input) {\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation VerifyPasskey($input: JSON!) {\n    optionPasskeyVerify(data: $input) {\n      status\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

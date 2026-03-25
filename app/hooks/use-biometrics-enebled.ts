@@ -1,59 +1,59 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@apollo/client/react';
 import { useState } from 'react';
-import axios from '../../src/api/api';
-import { PublicKeyCredentialCreationOptionsJSON, startRegistration } from '@simplewebauthn/browser';
-import { useApolloClient } from '@apollo/client/react';
+import { startRegistration } from '@simplewebauthn/browser';
+import { graphql } from '../gql';
+import { REMOVE_PASSKEY_MUTATION } from './use-biometrics-settings';
 
+const REGISTER_OPTIONS_PASSKEY_MUTATION = graphql(`
+  mutation RegisterOptionPasskey {
+    registerOptionPasskey
+  }
+`);
+
+const VERIFY_REGISTRATION_MUTATION = graphql(`
+  mutation VerifyRegistration($input: JSON!) {
+    registerOptionPasskeyVerify(data: $input) {
+      status
+    }
+  }
+`);
 
 export const useBiometricsEnabled = (setShow: (show: boolean) => void) => {
   const [credentialId, setCredentialId] = useState('');
-  const queryClient = useQueryClient();
-  const client = useApolloClient();
 
-  const mutation = useMutation({
-    mutationFn: async (accept: boolean) => {
-      if (accept) {
-        try {
-          const { data: options } = await axios.get<PublicKeyCredentialCreationOptionsJSON>('/api/passkey/biometrics/register-options');
-          const regResponse = await startRegistration({ optionsJSON: options });
+  const [registerOption, metaOption] = useMutation(REGISTER_OPTIONS_PASSKEY_MUTATION);
+  const [verifyOption, metaVerify] = useMutation(VERIFY_REGISTRATION_MUTATION);
+  const [removePasskey, metaRemove] = useMutation(REMOVE_PASSKEY_MUTATION);
 
-          await axios.post('/api/passkey/biometrics/verify-registration', regResponse);
-          localStorage.setItem(`webauthn_${regResponse.id}`, 'true');
-
-          await client.refetchQueries({
-            include: ['GetPasskeys'],
-          });
-
-          return regResponse.id;
-        } catch (err) {
-          console.error('Błąd biometrii:', err);
-          setCredentialId('');
-        }
-      } else {
-        localStorage.removeItem(`webauthn_${credentialId}`)
-        await axios.delete(`/api/passkey/biometrics/${credentialId}`);
-      }
-    },
-
-    onSuccess: (data) => {
-      setShow(!data);
-      setCredentialId(data ?? '');
-      queryClient.invalidateQueries({ queryKey: ['passkeys'] });
-
-    },
-    onError: () => {
-      setCredentialId('');
-    },
-  });
-
-  const handleToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleToggleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
-    mutation.mutate(checked);
+    if (checked) {
+
+      try {
+        const { data } = await registerOption()
+        const options = data?.registerOptionPasskey
+
+        const regResponse = await startRegistration({ optionsJSON: options });
+        localStorage.setItem(`webauthn_${regResponse.id}`, 'true');
+
+        setShow(!regResponse);
+        setCredentialId(regResponse.id ?? '');
+        await verifyOption({ variables: { input: regResponse } });
+
+      } catch (error) {
+        console.error('Błąd biometrii:', error);
+        setCredentialId('');
+      }
+    } else {
+      localStorage.removeItem(`webauthn_${credentialId}`)
+      removePasskey({ variables: { id: credentialId } });
+      setCredentialId('');
+    }
   };
 
   return {
     isEnabled: Boolean(credentialId),
     handleToggleChange,
-    isPending: mutation.isPending,
-  };
+    isPending: metaOption.loading || metaVerify.loading || metaRemove.loading,
+  }
 }

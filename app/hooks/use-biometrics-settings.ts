@@ -13,7 +13,7 @@ const PASSKEYS_QUERY = graphql(`
   }
 `);
 
-const REMOVE_PASSKEY_MUTATION = graphql(`
+export const REMOVE_PASSKEY_MUTATION = graphql(`
   mutation RemovePasskey($id: String!) {
     removePasskey(id: $id) {
       status

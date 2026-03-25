@@ -1,40 +1,48 @@
 "use client";
-import { useMutation } from '@tanstack/react-query';
-import axios from '../../src/api/api';
-import { PublicKeyCredentialCreationOptionsJSON, startAuthentication } from '@simplewebauthn/browser';
+import { useMutation } from '@apollo/client/react';
+import { startAuthentication } from '@simplewebauthn/browser';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '../components/navigation/navigation';
+import { graphql } from '../gql';
+
+const PASSKEY_OPTION_MUTATION = graphql(`
+  mutation GetPasskeyOptions {
+    optionPasskey
+  }
+`);
+
+const PASSKEY_VERIFY_MUTATION = graphql(`
+  mutation VerifyPasskey($input: JSON!) {
+    optionPasskeyVerify(data: $input) {
+      status
+    }
+  }
+`);
 
 export const useBiometricsLogin = (token?: string, callback?: () => void) => {
   const t = useTranslations('auth')
   const router = useRouter();
-  const mutation = useMutation({
-    mutationFn: async () => {
-      try {
-        const { data: options } = await axios.post<PublicKeyCredentialCreationOptionsJSON>('/api/passkey/biometrics/options');
-        const regResponse = await startAuthentication({ optionsJSON: options });
-        let verifyUrl = '/api/passkey/biometrics/verify';
+  const [passkeyOption] = useMutation(PASSKEY_OPTION_MUTATION);
+  const [passkeyVerifyOption] = useMutation(PASSKEY_VERIFY_MUTATION);
 
-        if (token) {
-          verifyUrl = `/api/provider-auth/biometrics/verify/${token}`;
-        }
+  const handleToggleChange = async () => {
+    try {
+      const { data } = await passkeyOption()
+      const options = data?.optionPasskey
+      console.log("🚀 ~ handleToggleChange ~ options:", options)
 
-        await axios.post(verifyUrl, regResponse);
-        callback?.();
-      } catch {
-        alert(t('loginWrong'));
+      const regResponse = await startAuthentication({ optionsJSON: options });
+
+      if (token) {
+        //   verifyUrl = `/api/provider-auth/biometrics/verify/${token}`;
       }
-    },
-    onSuccess: () => {
-      router.replace('/');
-    },
-    onError: () => {
-      alert(t('loginWrong'));
-    },
-  });
+      await passkeyVerifyOption({ variables: { input: regResponse } });
+      callback?.();
 
-  const handleToggleChange = () => {
-    mutation.mutate();
+      router.replace('/');
+    } catch {
+      alert(t('loginWrong'));
+    }
   };
 
   return {

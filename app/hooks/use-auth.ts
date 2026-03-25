@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from '../components/navigation/navigation';
+import { usePathname, useRouter } from '../components/navigation/navigation';
 import { graphql } from '../gql';
 import { useMutation, useQuery } from '@apollo/client/react';
 import { AuthStatus } from '../gql/graphql';
@@ -32,9 +32,11 @@ const LOGOUT_MUTATION = graphql(`
 
 export const useAuth = () => {
   const router = useRouter();
+  const path = usePathname();
   const { data, loading, error, refetch } = useQuery(STATUS_QUERY, {
     fetchPolicy: 'network-only',
     nextFetchPolicy: 'cache-first',
+    skip: path.includes('qr-verify')
   })
 
   const status = data?.loginStatus.status;

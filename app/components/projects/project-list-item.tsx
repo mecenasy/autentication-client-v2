@@ -5,8 +5,8 @@ import { Link } from '../navigation/navigation';
 import trash from '../../assets/trash.svg';
 import edit from '../../assets/edit.svg';
 import Image from 'next/image';
-import axios from 'axios';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@apollo/client/react';
+import { graphql } from '@/app/gql';
 
 export interface Project {
   name: string;
@@ -17,21 +17,32 @@ interface ProjectListItemProps {
   project: Project
 }
 
+const REMOVE_PROJECT_MUTATION = graphql(`
+  mutation RemoveProject($clientId: String!) {
+    federationRemove(clientId: $clientId) {
+    clientId
+    }
+  }
+`);
+
+
 const ProjectListItem = ({ project }: ProjectListItemProps) => {
-  const queryClient = useQueryClient();
 
-  const mutation = useMutation({
-    mutationFn: async () => {
-      await axios.delete(`/api/project-auth/${project.clientId}`);
-    },
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-    },
+  const [removeFederation] = useMutation(REMOVE_PROJECT_MUTATION, {
+    refetchQueries: ['GetAllProjects'],
   });
 
-  const handleDelete = () => {
-    mutation.mutate();
+  const handleDelete = async () => {
+    try {
+      await removeFederation({
+        variables: {
+          clientId: project.clientId,
+        },
+      });
+    } catch (error) {
+      console.log("🚀 ~ handleDelete ~ error:", error)
+
+    }
   };
 
   return (

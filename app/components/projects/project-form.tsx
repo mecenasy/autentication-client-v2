@@ -6,11 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { projectSchema } from '../schemas/schemas';
 import Input from '../Input';
 import ToggleSwitch from '../ui/toggle-switch';
-import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@apollo/client/react';
 import * as z from 'zod';
-import axios from '@/src/api/api';
 import { useRouter } from '../navigation/navigation';
+import { graphql } from '@/app/gql';
 
 interface ProjectFormProps {
   projectId?: string;
@@ -18,23 +17,58 @@ interface ProjectFormProps {
 
 type ProjectsFormValues = z.infer<ReturnType<typeof projectSchema>>;
 
+const CREATE_PROJECT_MUTATION = graphql(`
+  mutation CreateProject($name: String!, $clientUrl: String!) {
+    federationCreate(input: {
+      name: $name,
+      clientUrl: $clientUrl,
+      active: true
+    } ) {
+      name
+    }
+  }
+`);
+
+const UPDATE_PROJECT_MUTATION = graphql(`
+  mutation UpdateProject($name: String!, $clientUrl: String!, $active: Boolean!, $clientId: String!) {
+    federationUpdate(clientId: $clientId, input: {
+      name: $name,
+      clientUrl: $clientUrl,
+      active: $active
+    } ) {
+      name
+    }
+  }
+`);
+
+const GET_PROJECT_QUERY = graphql(`
+  query GetProject($clientId: String!) {
+    federationGet(clientId: $clientId) {
+      name
+      clientUrl
+      isActivated
+    }
+  }
+`);
+
 const ProjectForm = ({ projectId }: ProjectFormProps) => {
   const t = useTranslations('projects');
   const router = useRouter();
   const tSchemas = useTranslations('schemas');
-  const [isActive, setIsActive] = useState(true);
-  const queryClient = useQueryClient();
 
   const isEditMode = !!projectId;
 
-  const { data: project } = useQuery({
-    queryKey: ['project', projectId],
-    queryFn: async () => {
-      const { data } = await axios.get(`/api/project-auth/${projectId}`);
-      return data;
-    },
-    enabled: !!projectId,
+  const { data } = useQuery(GET_PROJECT_QUERY, {
+    variables: { clientId: projectId ?? '' },
+    skip: !projectId,
+
   });
+
+  const [createFederation] = useMutation(CREATE_PROJECT_MUTATION);
+  const [updateFederation] = useMutation(UPDATE_PROJECT_MUTATION);
+
+  const project = data?.federationGet;
+
 
   const {
     register,
@@ -42,35 +76,36 @@ const ProjectForm = ({ projectId }: ProjectFormProps) => {
     reset,
     formState: { errors },
   } = useForm<ProjectsFormValues>({
-    values: projectId ? (project ?? {}) : {},
+    values: isEditMode ? (project ?? { name: '', clientUrl: '' }) : { clientUrl: '', name: '' },
     resolver: zodResolver(projectSchema(tSchemas)),
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: ProjectsFormValues) => {
-      if (projectId) {
-        await axios.put(`/api/project-auth/${projectId}`, data);
-
+  const handleToggleChange = async ({ clientUrl, name, isActivated }: ProjectsFormValues) => {
+    try {
+      if (isEditMode) {
+        await updateFederation({
+          variables: {
+            name,
+            clientUrl,
+            clientId: projectId,
+            active: isActivated ?? false
+          },
+        });
       } else {
-        await axios.post('/api/project-auth', data);
+        await createFederation({
+          variables: {
+            name,
+            clientUrl,
+          },
+        });
       }
-    },
-
-    onSuccess: () => {
+      reset();
       router.push('/projects');
-      reset()
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
 
-    },
-    onError: () => {
+    } catch (error) {
+      console.log("🚀 ~ handleToggleChange ~ error:", error)
       router.push('/projects');
-      reset()
-
-    },
-  });
-
-  const handleToggleChange = (data: ProjectsFormValues) => {
-    mutation.mutate(data);
+    }
   };
 
   return (
@@ -97,9 +132,8 @@ const ProjectForm = ({ projectId }: ProjectFormProps) => {
           <div className="flex items-center justify-between mt-6">
             <span className="text-white font-semibold">{t('isActive')}</span>
             <ToggleSwitch
-              id="isActive"
-              checked={isActive}
-              onChange={(e) => setIsActive(e.target.checked)}
+              id="isActivated"
+              {...register('isActivated')}
             />
           </div>
         )}

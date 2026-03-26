@@ -58,6 +58,20 @@ export type ChangePasswordType = {
   oldPassword: Scalars['String']['input'];
 };
 
+export type CratedFederationInputType = {
+  active: Scalars['Boolean']['input'];
+  clientUrl: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+};
+
+export type CreateFederationType = {
+  __typename?: 'CreateFederationType';
+  clientId: Scalars['String']['output'];
+  clientUrl: Scalars['String']['output'];
+  isActivated: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type CreateSocialConfigDto = {
   active: Scalars['Boolean']['input'];
   callbackUrl?: InputMaybe<Scalars['String']['input']>;
@@ -80,6 +94,27 @@ export type DeleteSocialConfigType = {
 
 export type ForgotPasswordType = {
   email: Scalars['String']['input'];
+};
+
+export type GenerateSecretType = {
+  __typename?: 'GenerateSecretType';
+  secret: Scalars['String']['output'];
+};
+
+export type GetFederationDetailsType = {
+  __typename?: 'GetFederationDetailsType';
+  clientId: Scalars['String']['output'];
+  clientUrl: Scalars['String']['output'];
+  isActivated: Scalars['Boolean']['output'];
+  loginUrl: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  verifyUrl: Scalars['String']['output'];
+};
+
+export type GetFederationType = {
+  __typename?: 'GetFederationType';
+  clientId: Scalars['String']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type LoginStatusType = {
@@ -105,7 +140,12 @@ export type Mutation = {
   createSocialConfig: SocialConfigType;
   createUser: UserType;
   deleteSocialConfig: DeleteSocialConfigType;
+  federationCreate: CreateFederationType;
+  federationRemove: RemoveFederationType;
+  federationToggle: ToggleFederationType;
+  federationUpdate: CreateFederationType;
   forgotPassword: StatusType;
+  generateSecret: GenerateSecretType;
   loginUser: StatusType;
   logoutUser: StatusType;
   optionPasskey: Scalars['JSON']['output'];
@@ -153,8 +193,34 @@ export type MutationDeleteSocialConfigArgs = {
 };
 
 
+export type MutationFederationCreateArgs = {
+  input: CratedFederationInputType;
+};
+
+
+export type MutationFederationRemoveArgs = {
+  clientId: Scalars['String']['input'];
+};
+
+
+export type MutationFederationToggleArgs = {
+  clientId: Scalars['String']['input'];
+};
+
+
+export type MutationFederationUpdateArgs = {
+  clientId: Scalars['String']['input'];
+  input: CratedFederationInputType;
+};
+
+
 export type MutationForgotPasswordArgs = {
   input: ForgotPasswordType;
+};
+
+
+export type MutationGenerateSecretArgs = {
+  clientId: Scalars['String']['input'];
 };
 
 
@@ -262,11 +328,18 @@ export type QrChallengeType = {
 export type Query = {
   __typename?: 'Query';
   _ping?: Maybe<Scalars['Boolean']['output']>;
+  federationGet: GetFederationDetailsType;
+  federationGetAll: Array<GetFederationType>;
   getAllConfig: SocialConfigsType;
   getConfig: SocialConfigType;
   getPasskeys: Array<PassKeyType>;
   loginStatus: LoginStatusType;
   verifyToken: VerifyTokenType;
+};
+
+
+export type QueryFederationGetArgs = {
+  clientId: Scalars['String']['input'];
 };
 
 
@@ -277,6 +350,11 @@ export type QueryGetConfigArgs = {
 
 export type QueryVerifyTokenArgs = {
   token: Scalars['String']['input'];
+};
+
+export type RemoveFederationType = {
+  __typename?: 'RemoveFederationType';
+  clientId: Scalars['String']['output'];
 };
 
 export type RemovePasskeyType = {
@@ -308,6 +386,12 @@ export type SocialConfigsType = {
 export type StatusType = {
   __typename?: 'StatusType';
   status: AuthStatus | '%future added value';
+};
+
+export type ToggleFederationType = {
+  __typename?: 'ToggleFederationType';
+  active: Scalars['Boolean']['output'];
+  clientId: Scalars['ID']['output'];
 };
 
 export type UpdateSocialConfigDto = {
@@ -427,6 +511,64 @@ export type ToggleActiveMutationVariables = Exact<{
 
 
 export type ToggleActiveMutation = { __typename?: 'Mutation', activeSocialConfig: { __typename?: 'ActiveSocialConfigType', active: boolean, id: string } };
+
+export type GetProjectDetailsQueryVariables = Exact<{
+  clientId: Scalars['String']['input'];
+}>;
+
+
+export type GetProjectDetailsQuery = { __typename?: 'Query', federationGet: { __typename?: 'GetFederationDetailsType', name: string, clientUrl: string, isActivated: boolean, clientId: string, loginUrl: string, verifyUrl: string } };
+
+export type GenerateNewSecretMutationVariables = Exact<{
+  clientId: Scalars['String']['input'];
+}>;
+
+
+export type GenerateNewSecretMutation = { __typename?: 'Mutation', generateSecret: { __typename?: 'GenerateSecretType', secret: string } };
+
+export type ToggleProjectMutationVariables = Exact<{
+  clientId: Scalars['String']['input'];
+}>;
+
+
+export type ToggleProjectMutation = { __typename?: 'Mutation', federationToggle: { __typename?: 'ToggleFederationType', active: boolean } };
+
+export type CreateProjectMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+  clientUrl: Scalars['String']['input'];
+}>;
+
+
+export type CreateProjectMutation = { __typename?: 'Mutation', federationCreate: { __typename?: 'CreateFederationType', name: string } };
+
+export type UpdateProjectMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+  clientUrl: Scalars['String']['input'];
+  active: Scalars['Boolean']['input'];
+  clientId: Scalars['String']['input'];
+}>;
+
+
+export type UpdateProjectMutation = { __typename?: 'Mutation', federationUpdate: { __typename?: 'CreateFederationType', name: string } };
+
+export type GetProjectQueryVariables = Exact<{
+  clientId: Scalars['String']['input'];
+}>;
+
+
+export type GetProjectQuery = { __typename?: 'Query', federationGet: { __typename?: 'GetFederationDetailsType', name: string, clientUrl: string, isActivated: boolean } };
+
+export type RemoveProjectMutationVariables = Exact<{
+  clientId: Scalars['String']['input'];
+}>;
+
+
+export type RemoveProjectMutation = { __typename?: 'Mutation', federationRemove: { __typename?: 'RemoveFederationType', clientId: string } };
+
+export type GetAllProjectsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllProjectsQuery = { __typename?: 'Query', federationGetAll: Array<{ __typename?: 'GetFederationType', name: string, clientId: string }> };
 
 export type Verify2faMutationVariables = Exact<{
   code: Scalars['String']['input'];
@@ -564,6 +706,14 @@ export const VerificationDocument = {"kind":"Document","definitions":[{"kind":"O
 export const CreateConfigDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateConfig"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateSocialConfigDto"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createSocialConfig"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"clientId"}},{"kind":"Field","name":{"kind":"Name","value":"secret"}},{"kind":"Field","name":{"kind":"Name","value":"callbackUrl"}},{"kind":"Field","name":{"kind":"Name","value":"provider"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]} as unknown as DocumentNode<CreateConfigMutation, CreateConfigMutationVariables>;
 export const UpdateConfigDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateConfig"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"config"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateSocialConfigDto"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateSocialConfig"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"config"},"value":{"kind":"Variable","name":{"kind":"Name","value":"config"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"clientId"}},{"kind":"Field","name":{"kind":"Name","value":"secret"}},{"kind":"Field","name":{"kind":"Name","value":"callbackUrl"}},{"kind":"Field","name":{"kind":"Name","value":"provider"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]} as unknown as DocumentNode<UpdateConfigMutation, UpdateConfigMutationVariables>;
 export const ToggleActiveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ToggleActive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"activeSocialConfig"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<ToggleActiveMutation, ToggleActiveMutationVariables>;
+export const GetProjectDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetProjectDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"federationGet"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"clientId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"clientUrl"}},{"kind":"Field","name":{"kind":"Name","value":"isActivated"}},{"kind":"Field","name":{"kind":"Name","value":"clientId"}},{"kind":"Field","name":{"kind":"Name","value":"loginUrl"}},{"kind":"Field","name":{"kind":"Name","value":"verifyUrl"}}]}}]}}]} as unknown as DocumentNode<GetProjectDetailsQuery, GetProjectDetailsQueryVariables>;
+export const GenerateNewSecretDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"GenerateNewSecret"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"generateSecret"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"clientId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"secret"}}]}}]}}]} as unknown as DocumentNode<GenerateNewSecretMutation, GenerateNewSecretMutationVariables>;
+export const ToggleProjectDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ToggleProject"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"federationToggle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"clientId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]} as unknown as DocumentNode<ToggleProjectMutation, ToggleProjectMutationVariables>;
+export const CreateProjectDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateProject"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"clientUrl"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"federationCreate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"clientUrl"},"value":{"kind":"Variable","name":{"kind":"Name","value":"clientUrl"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"active"},"value":{"kind":"BooleanValue","value":true}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateProjectMutation, CreateProjectMutationVariables>;
+export const UpdateProjectDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateProject"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"clientUrl"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"active"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"federationUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"clientId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"clientUrl"},"value":{"kind":"Variable","name":{"kind":"Name","value":"clientUrl"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"active"},"value":{"kind":"Variable","name":{"kind":"Name","value":"active"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<UpdateProjectMutation, UpdateProjectMutationVariables>;
+export const GetProjectDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetProject"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"federationGet"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"clientId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"clientUrl"}},{"kind":"Field","name":{"kind":"Name","value":"isActivated"}}]}}]}}]} as unknown as DocumentNode<GetProjectQuery, GetProjectQueryVariables>;
+export const RemoveProjectDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveProject"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"federationRemove"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"clientId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"clientId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"clientId"}}]}}]}}]} as unknown as DocumentNode<RemoveProjectMutation, RemoveProjectMutationVariables>;
+export const GetAllProjectsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllProjects"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"federationGetAll"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"clientId"}}]}}]}}]} as unknown as DocumentNode<GetAllProjectsQuery, GetAllProjectsQueryVariables>;
 export const Verify2faDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Verify2fa"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"code"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verify2fa"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"code"},"value":{"kind":"Variable","name":{"kind":"Name","value":"code"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<Verify2faMutation, Verify2faMutationVariables>;
 export const AcceptAdaptiveLoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AcceptAdaptiveLogin"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"adaptiveLogin"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]} as unknown as DocumentNode<AcceptAdaptiveLoginMutation, AcceptAdaptiveLoginMutationVariables>;
 export const StatusDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginStatus"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"phoneId"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"is2faEnabled"}},{"kind":"Field","name":{"kind":"Name","value":"isAdaptiveLoginEnabled"}},{"kind":"Field","name":{"kind":"Name","value":"admin"}}]}}]}}]}}]} as unknown as DocumentNode<StatusQuery, StatusQueryVariables>;

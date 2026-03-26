@@ -4,19 +4,22 @@
 import { Link } from '../navigation/navigation';
 import { useTranslations } from 'next-intl';
 import ProjectListItem, { Project } from './project-list-item';
-import { useQuery } from '@tanstack/react-query';
-import axios from '@/src/api/api';
+import { useQuery } from '@apollo/client/react';
+import { graphql } from '@/app/gql';
+
+const GET_ALL_PROJECTS_QUERY = graphql(`
+  query GetAllProjects {
+    federationGetAll {
+      name
+      clientId
+    }
+  }
+`)
 
 const ProjectList = () => {
   const t = useTranslations('projects');
-  const { data: projects } = useQuery<Project[]>({
-    queryKey: ['projects'],
-    queryFn: async () => {
-      const { data } = await axios.get('/api/project-auth');
-      return data;
-    },
-    refetchOnWindowFocus: false
-  });
+  const { data } = useQuery(GET_ALL_PROJECTS_QUERY);
+  const projects = data?.federationGetAll;
 
   return (
     <div className="container mx-auto p-4 min-w-3xl">

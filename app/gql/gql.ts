@@ -25,6 +25,14 @@ type Documents = {
     "\n  mutation CreateConfig($input: CreateSocialConfigDto!) {\n    createSocialConfig(input: $input) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.CreateConfigDocument,
     "\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": typeof types.UpdateConfigDocument,
     "\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n": typeof types.ToggleActiveDocument,
+    "\n  query GetProjectDetails($clientId: String!) {\n    federationGet(clientId: $clientId) {\n      name\n      clientUrl\n      isActivated\n      clientId\n      loginUrl\n      verifyUrl\n    }\n  }\n": typeof types.GetProjectDetailsDocument,
+    "\n  mutation GenerateNewSecret($clientId: String!) {\n    generateSecret(clientId: $clientId) {\n      secret\n    }\n  }\n": typeof types.GenerateNewSecretDocument,
+    "\n  mutation ToggleProject($clientId: String!) {\n    federationToggle(clientId: $clientId) {\n      active\n    }\n  }\n": typeof types.ToggleProjectDocument,
+    "\n  mutation CreateProject($name: String!, $clientUrl: String!) {\n    federationCreate(input: {\n      name: $name,\n      clientUrl: $clientUrl,\n      active: true\n    } ) {\n      name\n    }\n  }\n": typeof types.CreateProjectDocument,
+    "\n  mutation UpdateProject($name: String!, $clientUrl: String!, $active: Boolean!, $clientId: String!) {\n    federationUpdate(clientId: $clientId, input: {\n      name: $name,\n      clientUrl: $clientUrl,\n      active: $active\n    } ) {\n      name\n    }\n  }\n": typeof types.UpdateProjectDocument,
+    "\n  query GetProject($clientId: String!) {\n    federationGet(clientId: $clientId) {\n      name\n      clientUrl\n      isActivated\n    }\n  }\n": typeof types.GetProjectDocument,
+    "\n  mutation RemoveProject($clientId: String!) {\n    federationRemove(clientId: $clientId) {\n    clientId\n    }\n  }\n": typeof types.RemoveProjectDocument,
+    "\n  query GetAllProjects {\n    federationGetAll {\n      name\n      clientId\n    }\n  }\n": typeof types.GetAllProjectsDocument,
     "\n  mutation Verify2fa($code:  String!) {\n    verify2fa(code: $code) {\n      status\n    }\n  }\n": typeof types.Verify2faDocument,
     "\n  mutation AcceptAdaptiveLogin {\n    adaptiveLogin {\n      active \n    }\n  } \n": typeof types.AcceptAdaptiveLoginDocument,
     "\n  query Status {\n    loginStatus {\n      status\n      phoneId\n      user {\n        id\n        email\n        is2faEnabled\n        isAdaptiveLoginEnabled\n        admin\n      }\n    }\n  }\n": typeof types.StatusDocument,
@@ -58,6 +66,14 @@ const documents: Documents = {
     "\n  mutation CreateConfig($input: CreateSocialConfigDto!) {\n    createSocialConfig(input: $input) {\n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.CreateConfigDocument,
     "\n  mutation UpdateConfig($id: String!, $config: UpdateSocialConfigDto!) {\n    updateSocialConfig(config: $config, id: $id) {      \n      id\n      name\n      clientId\n      secret\n      callbackUrl\n      provider\n      active\n    }\n  }\n": types.UpdateConfigDocument,
     "\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n": types.ToggleActiveDocument,
+    "\n  query GetProjectDetails($clientId: String!) {\n    federationGet(clientId: $clientId) {\n      name\n      clientUrl\n      isActivated\n      clientId\n      loginUrl\n      verifyUrl\n    }\n  }\n": types.GetProjectDetailsDocument,
+    "\n  mutation GenerateNewSecret($clientId: String!) {\n    generateSecret(clientId: $clientId) {\n      secret\n    }\n  }\n": types.GenerateNewSecretDocument,
+    "\n  mutation ToggleProject($clientId: String!) {\n    federationToggle(clientId: $clientId) {\n      active\n    }\n  }\n": types.ToggleProjectDocument,
+    "\n  mutation CreateProject($name: String!, $clientUrl: String!) {\n    federationCreate(input: {\n      name: $name,\n      clientUrl: $clientUrl,\n      active: true\n    } ) {\n      name\n    }\n  }\n": types.CreateProjectDocument,
+    "\n  mutation UpdateProject($name: String!, $clientUrl: String!, $active: Boolean!, $clientId: String!) {\n    federationUpdate(clientId: $clientId, input: {\n      name: $name,\n      clientUrl: $clientUrl,\n      active: $active\n    } ) {\n      name\n    }\n  }\n": types.UpdateProjectDocument,
+    "\n  query GetProject($clientId: String!) {\n    federationGet(clientId: $clientId) {\n      name\n      clientUrl\n      isActivated\n    }\n  }\n": types.GetProjectDocument,
+    "\n  mutation RemoveProject($clientId: String!) {\n    federationRemove(clientId: $clientId) {\n    clientId\n    }\n  }\n": types.RemoveProjectDocument,
+    "\n  query GetAllProjects {\n    federationGetAll {\n      name\n      clientId\n    }\n  }\n": types.GetAllProjectsDocument,
     "\n  mutation Verify2fa($code:  String!) {\n    verify2fa(code: $code) {\n      status\n    }\n  }\n": types.Verify2faDocument,
     "\n  mutation AcceptAdaptiveLogin {\n    adaptiveLogin {\n      active \n    }\n  } \n": types.AcceptAdaptiveLoginDocument,
     "\n  query Status {\n    loginStatus {\n      status\n      phoneId\n      user {\n        id\n        email\n        is2faEnabled\n        isAdaptiveLoginEnabled\n        admin\n      }\n    }\n  }\n": types.StatusDocument,
@@ -138,6 +154,38 @@ export function graphql(source: "\n  mutation UpdateConfig($id: String!, $config
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation ToggleActive ($id: String!) {\n    activeSocialConfig(id: $id) {\n      active\n      id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetProjectDetails($clientId: String!) {\n    federationGet(clientId: $clientId) {\n      name\n      clientUrl\n      isActivated\n      clientId\n      loginUrl\n      verifyUrl\n    }\n  }\n"): (typeof documents)["\n  query GetProjectDetails($clientId: String!) {\n    federationGet(clientId: $clientId) {\n      name\n      clientUrl\n      isActivated\n      clientId\n      loginUrl\n      verifyUrl\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation GenerateNewSecret($clientId: String!) {\n    generateSecret(clientId: $clientId) {\n      secret\n    }\n  }\n"): (typeof documents)["\n  mutation GenerateNewSecret($clientId: String!) {\n    generateSecret(clientId: $clientId) {\n      secret\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation ToggleProject($clientId: String!) {\n    federationToggle(clientId: $clientId) {\n      active\n    }\n  }\n"): (typeof documents)["\n  mutation ToggleProject($clientId: String!) {\n    federationToggle(clientId: $clientId) {\n      active\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateProject($name: String!, $clientUrl: String!) {\n    federationCreate(input: {\n      name: $name,\n      clientUrl: $clientUrl,\n      active: true\n    } ) {\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation CreateProject($name: String!, $clientUrl: String!) {\n    federationCreate(input: {\n      name: $name,\n      clientUrl: $clientUrl,\n      active: true\n    } ) {\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateProject($name: String!, $clientUrl: String!, $active: Boolean!, $clientId: String!) {\n    federationUpdate(clientId: $clientId, input: {\n      name: $name,\n      clientUrl: $clientUrl,\n      active: $active\n    } ) {\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateProject($name: String!, $clientUrl: String!, $active: Boolean!, $clientId: String!) {\n    federationUpdate(clientId: $clientId, input: {\n      name: $name,\n      clientUrl: $clientUrl,\n      active: $active\n    } ) {\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetProject($clientId: String!) {\n    federationGet(clientId: $clientId) {\n      name\n      clientUrl\n      isActivated\n    }\n  }\n"): (typeof documents)["\n  query GetProject($clientId: String!) {\n    federationGet(clientId: $clientId) {\n      name\n      clientUrl\n      isActivated\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation RemoveProject($clientId: String!) {\n    federationRemove(clientId: $clientId) {\n    clientId\n    }\n  }\n"): (typeof documents)["\n  mutation RemoveProject($clientId: String!) {\n    federationRemove(clientId: $clientId) {\n    clientId\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetAllProjects {\n    federationGetAll {\n      name\n      clientId\n    }\n  }\n"): (typeof documents)["\n  query GetAllProjects {\n    federationGetAll {\n      name\n      clientId\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

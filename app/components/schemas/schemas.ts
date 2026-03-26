@@ -56,4 +56,5 @@ export const resetPasswordSchema = (t: (key: string) => string) => z.object({
 export const projectSchema = (t: (key: string) => string) => z.object({
   name: z.string().min(1, t('projectNameRequired')),
   clientUrl: z.string().min(1, t('projectNameRequired')),
+  isActivated: z.boolean().default(true).optional(),
 });

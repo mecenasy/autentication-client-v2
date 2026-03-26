@@ -8,7 +8,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import edit from '../../assets/edit.svg';
 import axios from 'axios';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@apollo/client/react';
+import { graphql } from '@/app/gql';
 
 interface ProjectDetailsProps {
   clientId: string;
@@ -23,45 +24,77 @@ export interface ProjectDetails {
   isActivated: boolean;
 }
 
+const GET_PROJECT_QUERY = graphql(`
+  query GetProjectDetails($clientId: String!) {
+    federationGet(clientId: $clientId) {
+      name
+      clientUrl
+      isActivated
+      clientId
+      loginUrl
+      verifyUrl
+    }
+  }
+`);
+
+const GENERATE_NEW_SECRET_MUTATION = graphql(`
+  mutation GenerateNewSecret($clientId: String!) {
+    generateSecret(clientId: $clientId) {
+      secret
+    }
+  }
+`);
+
+const TOGGLE_PROJECT_MUTATION = graphql(`
+  mutation ToggleProject($clientId: String!) {
+    federationToggle(clientId: $clientId) {
+      active
+    }
+  }
+`);
+
 const ProjectDetails = ({ clientId }: ProjectDetailsProps) => {
   const t = useTranslations('projects');
-  const [showSecret, setShowSecret] = useState(false);
-  const queryClient = useQueryClient();
   const [secret, setSecret] = useState('');
-  const { data: project, isFetching } = useQuery({
-    queryKey: ['project', clientId],
-    queryFn: async () => {
-      const { data } = await axios.get<ProjectDetails>(`/api/project-auth/${clientId}`);
-      return data;
-    },
-    refetchOnWindowFocus: false
+  const { data, loading } = useQuery(GET_PROJECT_QUERY, {
+    variables: { clientId },
+    fetchPolicy: 'cache-and-network',
+    nextFetchPolicy: 'cache-first',
   });
 
-  const mutation = useMutation({
-    mutationFn: async () => {
-      const { data } = await axios.patch(`/api/project-auth/${project?.clientId}/toggle`);
-      return data
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project', clientId] });
-    },
+  const project = data?.federationGet;
+
+
+  const [toggleFederation] = useMutation(TOGGLE_PROJECT_MUTATION, {
+    refetchQueries: ['GetProjectDetails'],
   });
 
-  const mutationSecret = useMutation({
-    mutationFn: async () => {
-      const { data } = await axios.patch(`/api/project-auth/${project?.clientId}/new-secret`);
-      return data;
-    },
-    onSuccess: (data) => {
-      setSecret(data.secret);
-    },
-  });
+  const [generateNewSecret] = useMutation(GENERATE_NEW_SECRET_MUTATION);
 
-  const handleToggle = () => {
-    mutation.mutate();
+  const handleToggle = async () => {
+    try {
+      await toggleFederation({
+        variables: {
+          clientId,
+        },
+      });
+    } catch (error) {
+      console.log("🚀 ~ handleToggle ~ error:", error)
+    }
   };
-  const handleNewSecret = () => {
-    mutationSecret.mutate();
+  const handleNewSecret = async () => {
+    try {
+      const { data } = await generateNewSecret({
+        variables: {
+          clientId,
+        },
+      });
+
+      const secret = data?.generateSecret.secret ?? '';
+      setSecret(secret);
+    } catch (error) {
+      console.log("🚀 ~ handleNewSecret ~ error:", error)
+    }
   };
 
   const maskedSecret = '********************'
@@ -69,7 +102,8 @@ const ProjectDetails = ({ clientId }: ProjectDetailsProps) => {
   return (
     <div className="container mx-auto p-4 text-white">
       <h1 className="text-4xl font-bold mb-8">{t('projectDetails')}</h1>
-      {isFetching || !project ? <p>Loading...</p> : (
+      {loading && !project && <p>Loading...</p>}
+      {project && (
         <>
           <div className='flex justify-between items-start'>
             <h1 className="text-4xl font-bold mb-8">{project.name}</h1>
